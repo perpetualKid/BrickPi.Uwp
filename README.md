@@ -78,14 +78,44 @@ Internally, the BrickPi runs two Arduinos on the board. Each Arduino has a tiny 
 To use the LED in code, you can either set the status (ON or OFF) explicitely, or just toggle from current status
 
 ```C#
-brick.Arduino1Led.Toggle();	//Just change status from ON to OFF or vice versa
+brick.Arduino1Led.Toggle();	//change status from ON to OFF or vice versa
 brick.Arduino2Led.Light= true;	//explicitely set status to ON
 ```
 
 ### Motors
 
+Motors ([Standard NXT Motors](http://shop.lego.com/en-US/Interactive-Servo-Motor-9842)) do not need specific configuration, therefore instances are preinitialized and can be referred through the BrickPi.Motors collection:
+
+```C#
+Motor motorA = brick.Motors[MotorPort.Port_MA];
+Motor motorD = brick.Motors[MotorPort.Port_MD];
+
+```
+
+Using the reference, motors can be enabled and a velocity set. Velocity can be positive or negative to indicate the direction to run.
+
+```C#
+motorA.Velocity = -50;
+motorA.Enabled = true;
+//...	
+motorA.Enabled = false;	//set the motor to float
+//...
+motorA.Velocity = 0;	//set the motor to hold at current position
+
+````
+
+#### Motor Encoders
+
+Encoders are part of motors and count motor rotation with 0.5 degree precision (720 ticks per revolution). To set custom encoder count, or reset the encoder, the EncoderOffset property can be used. Setting the EncoderOffset equal to current Encoder count, will reset the Encoder.
+
+```C#
+int encoderTicks = motorA.Encoder;
+//reset the Encoder
+motorA.EncoderOffset = motorA.Encoder;
+```
+
 ### Sensors
 
 ### Nuget Package
 
-Planned, not yet created
+Coming, stay tuned!

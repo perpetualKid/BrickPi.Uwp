@@ -112,10 +112,10 @@ namespace BrickPiTestApp
 #endif
             if ((e as TouchSensorEventArgs).Pressed)
             {
-                Debug.WriteLine("Motor A Tacho: {0} Motor B Tacho: {1} Motor D Tacho: {2}", motorA.Encoder, motorB.Encoder, motorD.Encoder);
+                Debug.WriteLine("Motor A Encoder: {0} Motor B Encoder: {1} Motor D Encoder: {2}", motorA.Encoder, motorB.Encoder, motorD.Encoder);
                 brick.Arduino2Led.Light= true;
                 brick.Arduino1Led.Toggle();
-//                motorA.SetTachoCount(motorA.GetTachoCount());
+                //motorA.EncoderOffset = motorA.Encoder;
             }
             else
             {
