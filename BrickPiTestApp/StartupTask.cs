@@ -108,7 +108,7 @@ namespace BrickPiTestApp
 #if COLOR
             Debug.WriteLine(string.Format("NXT Color: {0}, RGB: {1}", color.ColorName, color.ColorData.ToString()));
 #else
-            Debug.WriteLine(string.Format("NXT Color, Raw: {0}, RGB: {1}", color.RawValue, color.RGBColor.ToString()));
+            Debug.WriteLine(string.Format("NXT Color, Raw: {0}, RGB: {1}", color.RawValue, color.ColorData.ToString()));
 #endif
             if ((e as TouchSensorEventArgs).Pressed)
             {

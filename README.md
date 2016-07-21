@@ -116,6 +116,74 @@ motorA.EncoderOffset = motorA.Encoder;
 
 ### Sensors
 
+Sensor ports typically need to be initialized with the specific sensor type, as different sensors use different response data format. Else if not initialiezd, each sensor port is preinitialized with a RawSensor (technically sending a 10-bit response value), which some analog sensors are using. Else an instance of a specific sensor type needs to be created, and attached to the Brick.Sensors collection. If multiple sensors will be attached, initialized can be hold until all sensors are created and added to the collection.
+
+```C#
+NXTTouchSensor touch = new NXTTouchSensor(SensorPort.Port_S1, SensorType.TOUCH_DEBOUNCE);
+await brick.Sensors.Add(touch, true); //true to hold initialization until all sensors are attached
+
+NXTUltraSonicSensor ultrasonic = new NXTUltraSonicSensor(SensorPort.Port_S2, SensorType.ULTRASONIC_CONT);
+await brick.Sensors.Add(ultrasonic, true);
+//...
+if (!await brick.InitializeSensors())		//now explicitely call sensor initialization
+	Debug.WriteLine("Something went wrong initializing sensors");
+```
+
+Sensor data needs to be polled from the BrickPi. This can be done in a single shot using `brick.UpdateValues()`. Most often an continuous loop will be run to poll sensor data (and motor encoder data) continously, this can be done by calling `brick.Start()`
+
+#### Sensor Data
+
+Sensor's internal data buffer will be updated either through non-reccuring or continuous sensor data polling (see above). In the application, sensor data can than be through the various sensor properties, ie. the UltraSonic sensor has a property for Distance
+```C#
+Debug.WriteLine(string.Format("NXT Ultrasonic, Distance: {0}, ", ultrasonic.Distance)); //distance in cm
+Debug.WriteLine(string.Format("NXT Touch, Is Pressed: {0}, ", ultrasonic.State)); //state if pressed or not
+```
+
+Internally, sensor data is held as RawValue, such as 0 or 1 for touch sensor, or different color values for Color Sensor
+```C#
+Debug.WriteLine(string.Format("NXT Color, Raw: {0}", color.RawValue));
+```
+
+#### Sensor Events
+
+Sensors will also raise events if sensor values change
+
+```C#
+touch.OnPressed += Touch_OnPressed;
+touch.OnReleased += Touch_OnReleased;
+touch.OnChanged += Touch_OnChanged;
+//...
+
+private void Touch_OnChanged(object sender, SensorEventArgs e)
+{
+	if ((e as TouchSensorEventArgs).Pressed)
+	{
+		brick.Arduino2Led.Light= true;
+	}
+	else
+	{
+		brick.Arduino2Led.Light = false;
+	}
+} 
+
+private void Touch_OnPressed(object sender, SensorEventArgs e)
+{
+	brick.Arduino1Led.Light= true;
+}
+
+private void Touch_OnReleased(object sender, SensorEventArgs e)
+{
+	brick.Arduino1Led.Light= false;
+}
+
+```
+
+To avoid raising events on noise data, ie. where measured distance may vary by few cm, a Threshold could be set with some sensors, which means no event will be raised if the change is less than the threshold value.
+
+```C#
+	ultrasonic.Threshold = 5;
+```
+
 ### Nuget Package
 
 Coming, stay tuned!
