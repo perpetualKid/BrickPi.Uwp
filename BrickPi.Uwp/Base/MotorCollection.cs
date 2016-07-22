@@ -22,7 +22,7 @@ namespace BrickPi.Uwp.Base
             internal set { motors[(int)port] = value; }
         }
 
-        public Motor this[ArduinoTarget arduino, ArduinoPort port]
+        public Motor this[Arduino arduino, ArduinoPort port]
         {
             get { return motors[((int)arduino - 1) * 2 + (int)port]; }
             internal set { motors[((int)arduino - 1) * 2 + (int)port] = value; }

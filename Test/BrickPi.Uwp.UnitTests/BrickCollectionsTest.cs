@@ -16,7 +16,7 @@ namespace BrickPi.Uwp.UnitTests
         public void SimpleEnumeratorTest()
         {
             SensorCollection collection = new SensorCollection(null);
-            Assert.IsNull(collection[ArduinoTarget.Arduino1, ArduinoPort.Port1]);
+            Assert.IsNull(collection[Arduino.Arduino1, ArduinoPort.Port1]);
         }
 
         [TestMethod()]

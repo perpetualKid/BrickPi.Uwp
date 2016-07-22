@@ -4,20 +4,20 @@ namespace BrickPi.Uwp.Base
 {
     public sealed class BrickLed
     {
-        private ArduinoTarget arduino;
+        private Arduino arduino;
         private GpioPin gpioPin;
 
-        internal BrickLed(GpioController gpioController, ArduinoTarget arduino)
+        internal BrickLed(GpioController gpioController, Arduino arduino)
         {
             this.arduino = arduino;
             if (null != gpioController)
             {
                 switch (arduino)
                 {
-                    case ArduinoTarget.Arduino1:
+                    case Arduino.Arduino1:
                         gpioPin = gpioController.OpenPin(18);
                         break;
-                    case ArduinoTarget.Arduino2:
+                    case Arduino.Arduino2:
                         gpioPin = gpioController.OpenPin(27);
                         break;
                 }
@@ -37,7 +37,7 @@ namespace BrickPi.Uwp.Base
             this.Light = !this.Light;
         }
 
-        public ArduinoTarget Arduino
+        public Arduino Arduino
         {
             get { return this.arduino; }
         }

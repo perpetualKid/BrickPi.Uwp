@@ -2,10 +2,17 @@
 
 [Windows 10 IoT Core](https://developer.microsoft.com/en-us/windows/iot) [Universal Windows Platform (UWP)](https://msdn.microsoft.com/en-us/windows/uwp/get-started/universal-application-platform-guide) on [Raspberry Pi](https://www.raspberrypi.org/products/raspberry-pi-2-model-b/) implementation for [Dexter BrickPi](http://www.dexterindustries.com/BrickPi/) board enabling [LEGO MINDSTORMS](http://www.lego.com/mindstorms/) 
 
-### Getting Started
+#### Current Status
 
+The code has been tested on **Raspberry Pi 2 Model B** and Windows IoT Core OS **Version 10.0.14376.0**. So far only Lego Mindstorms NXT 2.0 Sensors and Motors are implemented and tested.
 
-#### RaspberryPi setup
+#### Next steps
+
+Next steps include further sensors implementation, such as [Hitechnic Mindstorms Sensors](https://www.hitechnic.com/sensors) and additional Mindstorms EV3 sensors. Also planning to add some more functionality for motors, such as synchronization and PID control.
+
+## Getting Started
+
+#### Raspberry Pi setup
 
 BrickPi requires a fixed non-standard Baud rate of 500.000 baud. As high speed onboard serial is not supported in early versions of Windows 10 IoT Core, you need to manually change the device registry and enable the highspeed serial. 
 On the Raspberry Pi, open a console window and use the following command to enable highspeed serial. 
@@ -187,3 +194,18 @@ To avoid raising events on noise data, ie. where measured distance may vary by f
 ### Nuget Package
 
 Coming, stay tuned!
+
+### Known Issues
+
+There seems to be an issue using the Mindstorms NXT 2.0 Color sensor ([this one](http://shop.lego.com/en-US/Color-Sensor-9694)) as reported multiple times in BrickPi forum [here](http://www.dexterindustries.com/topic/has-anyone-got-the-colour-sensor-to-work/), [here](http://www.dexterindustries.com/topic/brickpi-colour-sensor/) or [here](http://www.dexterindustries.com/topic/problems-with-lego-color-sensor/), where the sensor does not initialize correctly if running in `SensorType.COLOR_FULL` (all colors enabled).
+To work around, one has to attach the sensor at the first port of a given Arduino (`SensorPort.Port_S1` or `SensorPort.Port_S3`) and leave the next Port unconnected (`SensorPort.Port_S2` or `SensorPort.Port_S4`), but initialize the same color sensor on both ports
+
+```C#
+//adding NXTColorSensor twice, on S3 and S4, to work around BrickPi issue. Order (S3 or S4 first) does not matter.
+NXTColorSensor color = new NXTColorSensor(SensorPort.Port_S4, SensorType.COLOR_FULL);
+await brick.Sensors.Add(color, true);
+color = new NXTColorSensor(SensorPort.Port_S3, SensorType.COLOR_FULL);
+await brick.Sensors.Add(color, true);
+
+```
+_

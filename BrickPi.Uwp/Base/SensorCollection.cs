@@ -22,7 +22,7 @@ namespace BrickPi.Uwp.Base
             internal set { sensors[(int)port] = value; }
         }
 
-        public RawSensor this[ArduinoTarget arduino, ArduinoPort port]
+        public RawSensor this[Arduino arduino, ArduinoPort port]
         {
             get { return sensors[((int)arduino - 1) * 2 + (int)port]; }
             internal set { sensors[((int)arduino - 1) * 2 + (int)port] = value; }

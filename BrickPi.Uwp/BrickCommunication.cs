@@ -169,7 +169,7 @@ namespace BrickPi.Uwp
         {
             bool result = true;
 
-            foreach (ArduinoTarget arduino in EnumExtension<ArduinoTarget>.All())
+            foreach (Arduino arduino in EnumExtension<Arduino>.All())
             {
                 ProtocolArray commandData = new ProtocolArray();
                 TimeSpan? setupTime = null;
@@ -206,7 +206,7 @@ namespace BrickPi.Uwp
         {
             ProtocolArray dataArray = new ProtocolArray(5);
             bool result = true;
-            foreach (ArduinoTarget arduino in EnumExtension<ArduinoTarget>.All())
+            foreach (Arduino arduino in EnumExtension<Arduino>.All())
             {
                 dataArray[Const.MessageTypeIndex] = (byte)MessageType.ChangeTimeout;
                 Array.Copy(BitConverter.GetBytes(timeout), 0, dataArray.Data, Const.TimeoutIndex, 4);
@@ -225,7 +225,7 @@ namespace BrickPi.Uwp
         /// <param name="currentAddress">current address</param>
         /// <param name="newAddress">new address</param>
         /// <returns></returns>
-        private async Task<bool> BrickPiChangeAddress(ArduinoTarget arduino, byte newAddress)
+        private async Task<bool> BrickPiChangeAddress(Arduino arduino, byte newAddress)
         {
             ProtocolArray dataArray = new ProtocolArray();
             dataArray[Const.MessageTypeIndex] = (int)MessageType.ChangeAddress;
@@ -267,7 +267,7 @@ namespace BrickPi.Uwp
             ProtocolArray dataArray;
             int retry = 0;
 
-            foreach (ArduinoTarget arduino in EnumExtension<ArduinoTarget>.All())
+            foreach (Arduino arduino in EnumExtension<Arduino>.All())
             {
                 //Fill the header of buffer for communication
                 dataArray = new ProtocolArray();
@@ -332,7 +332,7 @@ namespace BrickPi.Uwp
         #endregion
 
         #region Serial Communication
-        private async Task<byte[]> BrickPiTxAndRx(ArduinoTarget arduino, int bytesSend, byte[] sendBuffer,
+        private async Task<byte[]> BrickPiTxAndRx(Arduino arduino, int bytesSend, byte[] sendBuffer,
             TimeSpan? writeTimeout = null, TimeSpan? readTimeout = null, TimeSpan? cancelAfter = null)
         {
             try
@@ -355,7 +355,7 @@ namespace BrickPi.Uwp
         /// <param name="dest">The target Arduino, can be 1 or 2</param>
         /// <param name="byteCount">number of bytes to send</param>
         /// <param name="OutArray">byte array to send</param>
-        private async Task BrickPiTx(ArduinoTarget target, int byteCount, byte[] buffer, TimeSpan? timeout = null, TimeSpan? cancelAfter = null)
+        private async Task BrickPiTx(Arduino target, int byteCount, byte[] buffer, TimeSpan? timeout = null, TimeSpan? cancelAfter = null)
         {
             if (byteCount > buffer.Length)
                 return;

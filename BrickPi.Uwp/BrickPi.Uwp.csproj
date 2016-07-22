@@ -110,10 +110,9 @@
     <Compile Include="Base\Arduino.cs" />
     <Compile Include="Base\BrickLed.cs" />
     <Compile Include="Base\Color.cs" />
-    <Compile Include="Base\ColorIndex.cs" />
     <Compile Include="Base\Const.cs" />
     <Compile Include="Base\Enums.cs" />
-    <Compile Include="Base\RGBIColor.cs" />
+    <Compile Include="Base\ARGBColor.cs" />
     <Compile Include="Base\SensorEventArgs.cs" />
     <Compile Include="Base\MaskType.cs" />
     <Compile Include="Base\MessageType.cs" />

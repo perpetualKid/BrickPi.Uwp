@@ -71,8 +71,8 @@ namespace BrickPi.Uwp
             Task<GpioController> gpioControllerTask = GpioController.GetDefaultAsync().AsTask<GpioController>();
             await Task.WhenAll(configSerialTask, gpioControllerTask);
 
-            instance.arduino1Led = new BrickLed(gpioControllerTask.Result, ArduinoTarget.Arduino1);
-            instance.arduino2Led = new BrickLed(gpioControllerTask.Result, ArduinoTarget.Arduino2);
+            instance.arduino1Led = new BrickLed(gpioControllerTask.Result, Arduino.Arduino1);
+            instance.arduino2Led = new BrickLed(gpioControllerTask.Result, Arduino.Arduino2);
             return instance;
         }
         #endregion
