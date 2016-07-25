@@ -1,37 +1,37 @@
 # BrickPi.Uwp
 
-[Windows 10 IoT Core](https://developer.microsoft.com/en-us/windows/iot) [Universal Windows Platform (UWP)](https://msdn.microsoft.com/en-us/windows/uwp/get-started/universal-application-platform-guide) on [Raspberry Pi](https://www.raspberrypi.org/products/raspberry-pi-2-model-b/) implementation for [Dexter BrickPi](http://www.dexterindustries.com/BrickPi/) board enabling [LEGO MINDSTORMS](http://www.lego.com/mindstorms/) 
+[Windows 10 IoT Core](https://developer.microsoft.com/en-us/windows/iot) [Universal Windows Platform (UWP)](https://msdn.microsoft.com/en-us/windows/uwp/get-started/universal-application-platform-guide) on [Raspberry Pi](https://www.raspberrypi.org/products/raspberry-pi-2-model-b/) implementation for [Dexter BrickPi](http://www.dexterindustries.com/BrickPi/) board and [LEGO MINDSTORMS](http://www.lego.com/mindstorms/) components.
 
 #### Current Status
 
 The code has been tested on **Raspberry Pi 2 Model B** and Windows IoT Core OS **Version 10.0.14376.0**. So far, Lego Mindstorms NXT 2.0 Sensors and Motors are implemented and tested.
 
 - Mindstorms NXT Touch Sensor
-- Mindstorms NXT Color Sensor (see also "Known Issues" section below)
+- Mindstorms [NXT  Color sensor](http://shop.lego.com/en-US/Color-Sensor-9694) (see also "Known Issues" section below)
 - Mindstorms NXT Ultrasonic Sensor
 - Mindstorms EV3 Touch Sensor (untested)
 
 #### Next steps
 
-Next steps include further sensors implementation, such as [Hitechnic Mindstorms Sensors](https://www.hitechnic.com/sensors) and additional Mindstorms EV3 sensors. Also planning to add some more functionality for motors, such as synchronization and PID control.
+Next steps include further sensors implementation, such as [Hitechnic Mindstorms Sensors](https://www.hitechnic.com/sensors) and additional Mindstorms EV3 sensors. Also planning to add some more functionality for motors, such as synchronization and PID motor control.
 
 ## Getting Started
 
 #### Raspberry Pi setup
 
 BrickPi requires a fixed non-standard Baud rate of 500.000 baud. As high speed onboard serial is not supported in early versions of Windows 10 IoT Core, you need to manually change the device registry and enable the highspeed serial. 
-On the Raspberry Pi, open a console window and use the following command to enable highspeed serial. 
+Open a remote console sessiion to the Raspberry Pi, and use the following command to enable highspeed serial. 
 
 ```CMD
 Reg add hklm\system\controlset001\services\serpl011\parameters /v MaxBaudRateNoDmaBPS /t REG_DWORD /d 921600
 Devcon restart acpi\bcm2837
 ```
 
-Note: This only has to be done once, and should survive subsequent Windows Updates. If you reimage Windows on your Raspberry Pi to start from scratch, you may need to reapply above patch.
+Note: This has to be done only once, and should survive subsequent Windows Updates. If you reimage Windows on your Raspberry Pi to start from scratch, you will need to reapply above patch.
 
-#### Setup of the project
+#### Setting up a new project
 
-The application will use the Background Application template for Windows IoT Core. 
+The application uses the Background Application template for Windows IoT Core. 
 
  <img src="./media/image001.png" />
 
@@ -69,7 +69,7 @@ More details about this can be found in the
 
 ### BrickPi
 
-Next you need to get a reference to the BrickPi instance. The BrickPi is connected to an UART port on the Raspberry, which could be specified by name like "UART0", but as the current Raspberry Pi only have one UART available, this could be dropped and the first available UART is used
+Next you need to get a reference to the BrickPi instance. The BrickPi is connected to an UART port on the Raspberry, which could be specified by name like "UART0". The current Raspberry Pi only has one UART available, this could be dropped and the first available UART is used
 
 
 ```C#
@@ -128,7 +128,7 @@ motorA.EncoderOffset = motorA.Encoder;
 
 ### Sensors
 
-Sensor ports typically need to be initialized with the specific sensor type, as different sensors use different response data format. Else if not initialiezd, each sensor port is preinitialized with a RawSensor (technically sending a 10-bit response value), which some analog sensors are using. Else an instance of a specific sensor type needs to be created, and attached to the Brick.Sensors collection. If multiple sensors will be attached, initialized can be hold until all sensors are created and added to the collection.
+Sensor ports typically need to be initialized with the specific sensor type, as different sensors use different response data format. If not initialiezd, each sensor port is initialized with a RawSensor (technically sending a 10-bit response value), which some analog sensors are using. Instances of the specific sensor type need to be created, and attached to the Brick.Sensors collection. If multiple sensors will be attached, initialization can be hold until all sensors are created and added to the collection.
 
 ```C#
 NXTTouchSensor touch = new NXTTouchSensor(SensorPort.Port_S1, SensorType.TOUCH_DEBOUNCE);
@@ -141,14 +141,14 @@ if (!await brick.InitializeSensors())		//now explicitely call sensor initializat
 	Debug.WriteLine("Something went wrong initializing sensors");
 ```
 
-Sensor data needs to be polled from the BrickPi. This can be done in a single shot using `brick.UpdateValues()`. Most often an continuous loop will be run to poll sensor data (and motor encoder data) continously, this can be done by calling `brick.Start()`
+Sensor data needs to be polled from the BrickPi. This can be done in a single shot using `brick.UpdateValues()`. Most often a continuous loop will be run to poll sensor data (and motor encoder data) continously, this can be done by calling `brick.Start()`
 
 #### Sensor Data
 
-Sensor's internal data buffer will be updated either through non-reccuring or continuous sensor data polling (see above). In the application, sensor data can than be through the various sensor properties, ie. the UltraSonic sensor has a property for Distance
+Sensor's internal data buffer will be updated either through non-reccuring or continuous sensor data polling (see above). In the application, sensor data can than be accessed through the various sensor properties, i.e. the UltraSonic sensor has a property for Distance, or Touch Sensor a boolean property indicating if the button is Pressed:
 ```C#
 Debug.WriteLine(string.Format("NXT Ultrasonic, Distance: {0}, ", ultrasonic.Distance)); //distance in cm
-Debug.WriteLine(string.Format("NXT Touch, Is Pressed: {0}, ", ultrasonic.State)); //state if pressed or not
+Debug.WriteLine(string.Format("NXT Touch, Is Pressed: {0}, ", touch.Pressed)); //true if pressed
 ```
 
 Internally, sensor data is held as RawValue, such as 0 or 1 for touch sensor, or different color values for Color Sensor
@@ -190,10 +190,10 @@ private void Touch_OnReleased(object sender, SensorEventArgs e)
 
 ```
 
-To avoid raising events on noise data, ie. where measured distance may vary by few cm, a Threshold could be set with some sensors, which means no event will be raised if the change is less than the threshold value.
+To avoid raising events on noisy data, ie. where ambient light floats, or ultraonic distance may vary by few cm, a Threshold could be set with some sensors, which means no event will be raised if the change is less than the threshold value.
 
 ```C#
-	ultrasonic.Threshold = 5;
+ultrasonic.Threshold = 5;
 ```
 
 ### Nuget Package
@@ -202,7 +202,7 @@ Coming, stay tuned!
 
 ### Known Issues
 
-There seems to be an issue using the Mindstorms NXT 2.0 Color sensor ([this one](http://shop.lego.com/en-US/Color-Sensor-9694)) as reported multiple times in BrickPi forum [here](http://www.dexterindustries.com/topic/has-anyone-got-the-colour-sensor-to-work/), [here](http://www.dexterindustries.com/topic/brickpi-colour-sensor/) or [here](http://www.dexterindustries.com/topic/problems-with-lego-color-sensor/), where the sensor does not initialize correctly if running in `SensorType.COLOR_FULL` (all colors enabled).
+There seems to be an issue using the Mindstorms [NXT 2.0 Color sensor](http://shop.lego.com/en-US/Color-Sensor-9694) as reported multiple times in BrickPi forum [here](http://www.dexterindustries.com/topic/has-anyone-got-the-colour-sensor-to-work/), [here](http://www.dexterindustries.com/topic/brickpi-colour-sensor/) or [here](http://www.dexterindustries.com/topic/problems-with-lego-color-sensor/), where the sensor does not initialize correctly if running in `SensorType.COLOR_FULL` (all colors enabled).
 To work around, one has to attach the sensor at the first port of a given Arduino (`SensorPort.Port_S1` or `SensorPort.Port_S3`) and leave the next Port unconnected (`SensorPort.Port_S2` or `SensorPort.Port_S4`), but initialize the same color sensor on both ports
 
 ```C#

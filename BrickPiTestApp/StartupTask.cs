@@ -1,5 +1,6 @@
 ﻿#define COLOR
 
+using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using BrickPi.Uwp;
@@ -46,10 +47,11 @@ namespace BrickPiTestApp
             touch = new NXTTouchSensor(SensorPort.Port_S1, SensorType.TOUCH_DEBOUNCE);
             touch.OnPressed += Touch_OnPressed;
             touch.OnReleased += Touch_OnReleased;
-            touch.OnChanged += Touch_PropertyChanged;
+            touch.OnChanged += Touch_OnChanged;
             await brick.Sensors.Add(touch, true);
 
             ultrasonic = new NXTUltraSonicSensor(SensorPort.Port_S2, SensorType.ULTRASONIC_CONT);
+            ultrasonic.Threshold = 5;
             await brick.Sensors.Add(ultrasonic, true);
 
 #if COLOR
@@ -65,7 +67,7 @@ namespace BrickPiTestApp
             if (!await brick.InitializeSensors())
                 Debug.WriteLine("Something went wrong initializing sensors");
 
-                        brick.Start();
+            brick.Start();
 
             //while (true)
             //{
@@ -101,7 +103,7 @@ namespace BrickPiTestApp
         }
 
 
-        private void Touch_PropertyChanged(object sender, SensorEventArgs e)
+        private void Touch_OnChanged(object sender, SensorEventArgs e)
         {
             //            ledPin.Write(touch.IsPressed() ? GpioPinValue.High : GpioPinValue.Low);
             Debug.WriteLine(string.Format("NXT US, Distance: {0}, ", ultrasonic.Distance));
@@ -113,7 +115,7 @@ namespace BrickPiTestApp
             if ((e as TouchSensorEventArgs).Pressed)
             {
                 Debug.WriteLine("Motor A Encoder: {0} Motor B Encoder: {1} Motor D Encoder: {2}", motorA.Encoder, motorB.Encoder, motorD.Encoder);
-                brick.Arduino2Led.Light= true;
+                brick.Arduino2Led.Light = true;
                 brick.Arduino1Led.Toggle();
                 //motorA.EncoderOffset = motorA.Encoder;
             }
@@ -136,5 +138,6 @@ namespace BrickPiTestApp
             motorB = brick.Motors[MotorPort.Port_MB];
             motorD = brick.Motors[MotorPort.Port_MD];
         }
+
     }
 }
