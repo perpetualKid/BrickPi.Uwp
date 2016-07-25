@@ -93,9 +93,6 @@ namespace BrickPi.Uwp.Sensors
                             RawValue = RawValue - 65535;
                     }
                     break;
-                case SensorType.EV3_TOUCH_0:
-                    RawValue = (int)responseData.GetBits(1, 16);
-                    break;
                 case SensorType.EV3_TOUCH_DEBOUNCE:
                 case SensorType.COLOR_RED:
                 case SensorType.COLOR_GREEN:

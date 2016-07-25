@@ -125,6 +125,7 @@
     <Compile Include="Brick.cs" />
     <Compile Include="BrickCommunication.cs" />
     <Compile Include="Base\ProtocolArray.cs" />
+    <Compile Include="Sensors\EV3\EV3TouchSensor.cs" />
     <Compile Include="Sensors\I2CSensor.cs" />
     <Compile Include="Motors\Motor.cs" />
     <Compile Include="Sensors\NXT\NXTUltraSonicSensor.cs" />
@@ -140,7 +141,6 @@
     </SDKReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Sensors\EV3\" />
     <Folder Include="Sensors\Hitechnic\" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">

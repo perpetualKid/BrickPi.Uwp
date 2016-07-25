@@ -1,25 +1,29 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using BrickPi.Uwp.Base;
 
-namespace BrickPi.Uwp.Sensors.NXT
+namespace BrickPi.Uwp.Sensors.EV3
 {
-    public sealed class NXTTouchSensor: RawSensor
+    public class EV3TouchSensor: RawSensor
     {
+        private const int threshold = 1020; //from BrickPi source
         public event EventHandler<SensorEventArgs> OnPressed;
 
         public event EventHandler<SensorEventArgs> OnReleased;
 
         public bool Pressed { get; set; }
 
-        public NXTTouchSensor(SensorPort sensorPort): base(sensorPort)
+        public EV3TouchSensor(SensorPort sensorPort): base(sensorPort)
         {
-            SensorType = SensorType.TOUCH_DEBOUNCE;
+            SensorType = SensorType.EV3_TOUCH_DEBOUNCE;
         }
 
-        public NXTTouchSensor(SensorPort sensorPort, SensorType sensorType) : base(sensorPort)
+        public EV3TouchSensor(SensorPort sensorPort, SensorType sensorType) : base(sensorPort)
         {
-            if (sensorType != SensorType.TOUCH && sensorType != SensorType.TOUCH_DEBOUNCE)
+            if (sensorType != SensorType.EV3_TOUCH_0 && sensorType != SensorType.EV3_TOUCH_DEBOUNCE)
                 throw new ArgumentOutOfRangeException();
             SensorType = sensorType;
         }
@@ -27,16 +31,16 @@ namespace BrickPi.Uwp.Sensors.NXT
         public override void UpdateSensorResponse(ProtocolArray responseData)
         {
             bool state = Pressed;
-            if (SensorType == SensorType.TOUCH) //Touch has single bit response, vs Touch_Debounce reads a analog raw value
+            if (SensorType == SensorType.EV3_TOUCH_0)
             {
-                RawValue = (int)responseData.GetBits(1, 1);
+                RawValue = (int)responseData.GetBits(1, 16);
             }
             else
                 base.UpdateSensorResponse(responseData);
-            Pressed = (RawValue != 0);
+            Pressed = (RawValue >= threshold);
             if (state != Pressed)
             {
-                this.OnChangedEventHandler(new TouchSensorEventArgs() { Pressed = this.Pressed});
+                this.OnChangedEventHandler(new TouchSensorEventArgs() { Pressed = this.Pressed });
                 if (Pressed)
                 {
                     if (null != OnPressed)
@@ -48,6 +52,8 @@ namespace BrickPi.Uwp.Sensors.NXT
                         Task.Run(() => OnReleased(this, new SensorEventArgs()));
                 }
             }
+
+            base.UpdateSensorResponse(responseData);
         }
     }
 }

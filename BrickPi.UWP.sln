@@ -9,6 +9,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrickPi.Uwp", "BrickPi.Uwp\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrickPi.Uwp.UnitTests", "Test\BrickPi.Uwp.UnitTests\BrickPi.Uwp.UnitTests.csproj", "{4E83D7C8-3EAF-4793-83F8-24680DCCF985}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GitHub Pages", "GitHub Pages", "{5E99B195-751C-4584-A0DD-BF5DF681B6EC}"
+	ProjectSection(SolutionItems) = preProject
+		media\image001.png = media\image001.png
+		README.md = README.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

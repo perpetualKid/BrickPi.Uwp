@@ -4,7 +4,12 @@
 
 #### Current Status
 
-The code has been tested on **Raspberry Pi 2 Model B** and Windows IoT Core OS **Version 10.0.14376.0**. So far only Lego Mindstorms NXT 2.0 Sensors and Motors are implemented and tested.
+The code has been tested on **Raspberry Pi 2 Model B** and Windows IoT Core OS **Version 10.0.14376.0**. So far, Lego Mindstorms NXT 2.0 Sensors and Motors are implemented and tested.
+
+- Mindstorms NXT Touch Sensor
+- Mindstorms NXT Color Sensor (see also "Known Issues" section below)
+- Mindstorms NXT Ultrasonic Sensor
+- Mindstorms EV3 Touch Sensor (untested)
 
 #### Next steps
 
