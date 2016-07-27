@@ -6,10 +6,10 @@
 
 The code has been tested on **Raspberry Pi 2 Model B** and Windows IoT Core OS **Version 10.0.14376.0**. So far, Lego Mindstorms NXT 2.0 Sensors and Motors are implemented and tested.
 
-- Mindstorms NXT Touch Sensor
+- Mindstorms [NXT Touch Sensor](http://shop.lego.com/en-US/Touch-Sensor-9843)
 - Mindstorms [NXT  Color sensor](http://shop.lego.com/en-US/Color-Sensor-9694) (see also "Known Issues" section below)
-- Mindstorms NXT Ultrasonic Sensor
-- Mindstorms EV3 Touch Sensor (untested)
+- Mindstorms [NXT Ultrasonic Sensor](http://shop.lego.com/en-US/Ultrasonic-Sensor-9846)
+- Mindstorms [EV3 Touch Sensor](http://shop.lego.com/en-US/EV3-Touch-Sensor-45507) (untested)
 
 #### Next steps
 
