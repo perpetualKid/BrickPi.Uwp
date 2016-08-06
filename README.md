@@ -1,10 +1,12 @@
-# BrickPi.Uwp
+# BrickPi.Uwp for Windows IoT Core
 
-[Windows 10 IoT Core](https://developer.microsoft.com/en-us/windows/iot) [Universal Windows Platform (UWP)](https://msdn.microsoft.com/en-us/windows/uwp/get-started/universal-application-platform-guide) on [Raspberry Pi](https://www.raspberrypi.org/products/raspberry-pi-2-model-b/) implementation for [Dexter BrickPi](http://www.dexterindustries.com/BrickPi/) board and [LEGO MINDSTORMS](http://www.lego.com/mindstorms/) components.
+[Windows 10 IoT Core](https://developer.microsoft.com/en-us/windows/iot) [Universal Windows Platform (UWP)](https://msdn.microsoft.com/en-us/windows/uwp/get-started/universal-application-platform-guide) implementation for [Dexter BrickPi](http://www.dexterindustries.com/BrickPi/) board on [Raspberry Pi](https://www.raspberrypi.org/products/raspberry-pi-2-model-b/) and enabling [LEGO MINDSTORMS](http://www.lego.com/mindstorms/) components to be controlled by Windows 10 IoT Core.
 
 #### Current Status
 
-The code has been tested on **Raspberry Pi 2 Model B** and Windows IoT Core OS **Version 10.0.14376.0**. So far, Lego Mindstorms NXT 2.0 Sensors and Motors are implemented and tested.
+The code has been tested on **Raspberry Pi 2 Model B** and Windows IoT Core OS **Version 10.0.14393.0** (Redstone/Anniversary Update). 
+
+So far, Lego Mindstorms NXT 2.0 Sensors and Motors are implemented and tested.
 
 - Mindstorms [NXT Touch Sensor](http://shop.lego.com/en-US/Touch-Sensor-9843)
 - Mindstorms [NXT  Color sensor](http://shop.lego.com/en-US/Color-Sensor-9694) (see also "Known Issues" section below)
@@ -190,7 +192,7 @@ private void Touch_OnReleased(object sender, SensorEventArgs e)
 
 ```
 
-To avoid raising events on noisy data, ie. where ambient light floats, or ultraonic distance may vary by few cm, a Threshold could be set with some sensors, which means no event will be raised if the change is less than the threshold value.
+To avoid raising events on noisy data, ie. where ambient light floats, or ultrasonic distance may vary by few cm, a Threshold could be set with some sensors, which means no event will be raised if the change is less than the threshold value.
 
 ```C#
 ultrasonic.Threshold = 5;
@@ -198,11 +200,16 @@ ultrasonic.Threshold = 5;
 
 ### Nuget Package
 
-Coming, stay tuned!
+To simplify installation, BrickPi.Uwp is available as Nuget package as well here:
+[BrickPi UWP Windows IoT Core Nuget package](https://www.nuget.org/packages/BrickPi.UWP/)
+
+To install BrickPi UWP Windows IoT Core, run the following command in the Package Manager Console 
+`Install-Package BrickPi.UWP`
+
 
 ### Known Issues
 
-There seems to be an issue using the Mindstorms [NXT 2.0 Color sensor](http://shop.lego.com/en-US/Color-Sensor-9694) as reported multiple times in BrickPi forum [here](http://www.dexterindustries.com/topic/has-anyone-got-the-colour-sensor-to-work/), [here](http://www.dexterindustries.com/topic/brickpi-colour-sensor/) or [here](http://www.dexterindustries.com/topic/problems-with-lego-color-sensor/), where the sensor does not initialize correctly if running in `SensorType.COLOR_FULL` (all colors enabled).
+There is an issue using the Mindstorms [NXT 2.0 Color sensor](http://shop.lego.com/en-US/Color-Sensor-9694) as reported multiple times in BrickPi forum [here](http://www.dexterindustries.com/topic/has-anyone-got-the-colour-sensor-to-work/), [here](http://www.dexterindustries.com/topic/brickpi-colour-sensor/) or [here](http://www.dexterindustries.com/topic/problems-with-lego-color-sensor/), where the sensor does not initialize correctly if running in `SensorType.COLOR_FULL` (all colors enabled).
 To work around, one has to attach the sensor at the first port of a given Arduino (`SensorPort.Port_S1` or `SensorPort.Port_S3`) and leave the next Port unconnected (`SensorPort.Port_S2` or `SensorPort.Port_S4`), but initialize the same color sensor on both ports
 
 ```C#
