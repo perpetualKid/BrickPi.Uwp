@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+    <metadata>
+        <id>BrickPi.UWP</id>
+        <version>1.0.0</version>
+        <title>BrickPi UWP Windows IoT Core</title>
+        <authors>perpetualKid</authors>
+        <licenseUrl>https://github.com/perpetualKid/BrickPi.Uwp/blob/master/LICENSE</licenseUrl>
+        <projectUrl>https://github.com/perpetualKid/BrickPi.Uwp</projectUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>Windows 10 IoT Core UWP implementation for Raspberry Pi and Dexter BrickPi LEGO MINDSTORMS board</description>
+        <releaseNotes>Initial Release, including all basic motor functionality (Speed, Enabled/Disabled, Encoder), and Mindstorms NXT 2.0 sensors (Touch, Color, UltraSonic)</releaseNotes>
+        <tags>dexter brickpi windows uwp iot iot-core</tags>
+        <dependencies>
+            <group targetFramework="Windows 10 Universal App Platform10.0">
+                <dependency id="System.Text.Encoding" version="4.0.10" />
+                <dependency id="System.Collections" version="4.0.10" />
+                <dependency id="System.Diagnostics.Debug" version="4.0.10" />
+                <dependency id="System.Runtime" version="4.0.20" />
+                <dependency id="System.Runtime.Extensions" version="4.0.10" />
+                <dependency id="System.Runtime.InteropServices.WindowsRuntime" version="4.0.0" />
+                <dependency id="System.Runtime.WindowsRuntime" version="4.0.10" />
+                <dependency id="System.Threading" version="4.0.10" />
+                <dependency id="System.Threading.Tasks" version="4.0.10" />
+            </group>
+        </dependencies>
+    </metadata>
+    <files>
+        <file src="..\BrickPi.Uwp\bin\Release\BrickPi.Uwp.dll" target="ref\uap10.0\BrickPi.Uwp.dll" />
+        <file src="..\BrickPi.Uwp\bin\Release\BrickPi.Uwp.pri" target="ref\uap10.0\BrickPi.Uwp.pri" />
+        <file src="..\BrickPi.Uwp\bin\ARM\Release\BrickPi.Uwp.dll" target="runtimes\win10-arm\lib\uap10.0\BrickPi.Uwp.dll" />
+        <file src="..\BrickPi.Uwp\bin\ARM\Release\BrickPi.Uwp.pdb" target="runtimes\win10-arm\lib\uap10.0\BrickPi.Uwp.pdb" />
+        <file src="..\BrickPi.Uwp\bin\x64\Release\BrickPi.Uwp.dll" target="runtimes\win10-x64\lib\uap10.0\BrickPi.Uwp.dll" />
+        <file src="..\BrickPi.Uwp\bin\x64\Release\BrickPi.Uwp.pdb" target="runtimes\win10-x64\lib\uap10.0\BrickPi.Uwp.pdb" />
+        <file src="..\BrickPi.Uwp\bin\x86\Release\BrickPi.Uwp.dll" target="runtimes\win10-x86\lib\uap10.0\BrickPi.Uwp.dll" />
+        <file src="..\BrickPi.Uwp\bin\x86\Release\BrickPi.Uwp.pdb" target="runtimes\win10-x86\lib\uap10.0\BrickPi.Uwp.pdb" />
+    </files>
+</package>

@@ -94,7 +94,7 @@ namespace BrickPiTestApp
 
         private void Touch_OnPressed(object sender, SensorEventArgs e)
         {
-            //motorA.Velocity = -50;
+            motorA.Velocity = -50;
             motorA.Enabled = true;
             motorB.Velocity = 100;
             motorB.Enabled = true;
