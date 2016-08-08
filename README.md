@@ -37,7 +37,23 @@ The application uses the Background Application template for Windows IoT Core.
 
  <img src="./media/image001.png" />
 
-Once the project is created, you need to configure support for serial port capability. This can't be achieved through the UI editor, so you need to text edit the Package.appmanifest file and add (there will be an internetClient capability by default):
+Add a reference to the BrickPi.Uwp library to your project. You can either use the source code version by cloning and compiling this Github repository, or use the [BrickPi UWP Windows IoT Core Nuget package](https://www.nuget.org/packages/BrickPi.UWP/).
+
+To install BrickPi UWP Windows IoT Core, run the following command in the Package Manager Console 
+`Install-Package BrickPi.UWP` or run the Package Manager UI:
+
+ <img src="./media/image002.png" />
+
+ Search for "BrickPi.UWP" package:
+
+ <img src="./media/image003.png" />
+
+ Enable the package in the current project
+
+  <img src="./media/image004.png" />
+
+
+Once the project is created, you need to enable support for serial port capabilities. This can't be achieved in the UI Manifest editor, so you'll need to text edit the Package.appmanifest file and add (there will be an internetClient capability by default):
 
 ```XML
   <Capabilities>
@@ -50,7 +66,7 @@ Once the project is created, you need to configure support for serial port capab
   </Capabilities>
 ```
 
-Add a reference to the BrickPi.Uwp library to your project (Nuget package TODO). First you need to implement a 
+First you need to implement a 
 deferal for the background task instance
 
 ```C#
@@ -197,15 +213,6 @@ To avoid raising events on noisy data, ie. where ambient light floats, or ultras
 ```C#
 ultrasonic.Threshold = 5;
 ```
-
-### Nuget Package
-
-To simplify installation, BrickPi.Uwp is available as Nuget package as well here:
-[BrickPi UWP Windows IoT Core Nuget package](https://www.nuget.org/packages/BrickPi.UWP/)
-
-To install BrickPi UWP Windows IoT Core, run the following command in the Package Manager Console 
-`Install-Package BrickPi.UWP`
-
 
 ### Known Issues
 
