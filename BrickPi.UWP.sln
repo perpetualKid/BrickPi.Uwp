@@ -12,6 +12,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GitHub Documentation", "GitHub Documentation", "{5E99B195-751C-4584-A0DD-BF5DF681B6EC}"
 	ProjectSection(SolutionItems) = preProject
 		media\image001.png = media\image001.png
+		media\image002.png = media\image002.png
+		media\image003.png = media\image003.png
+		media\image004.png = media\image004.png
 		README.md = README.md
 	EndProjectSection
 EndProject

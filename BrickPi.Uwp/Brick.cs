@@ -93,7 +93,7 @@ namespace BrickPi.Uwp
                 return serialPort;
 
             //if multiple serial found, use a filter
-            Debug.WriteLine(string.Format("# of Serial devices found: {0}", deviceCollection.Count));
+            Debug.WriteLine($"# of Serial devices found: {deviceCollection.Count}");
             if (deviceCollection.Count > 0 && !string.IsNullOrEmpty(portName))
             {
                 foreach (DeviceInformation device in deviceCollection)
@@ -109,7 +109,7 @@ namespace BrickPi.Uwp
             }
             //if just one serial, or no filter, use the first one
             serialPort = await SerialDevice.FromIdAsync(deviceCollection[0].Id);
-            Debug.WriteLine(string.Format("Using Serial port {1} @ {0}", deviceCollection[0].Name, serialPort.PortName));
+            Debug.WriteLine($"Using Serial port {serialPort.PortName} @ {deviceCollection[0].Name}");
             return serialPort;
         }
 
@@ -133,7 +133,7 @@ namespace BrickPi.Uwp
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(string.Format("Exception initializing Serial port: {0}", ex.Message));
+                Debug.WriteLine($"Exception initializing Serial port: {ex.Message}");
             }
         }
 
@@ -144,7 +144,7 @@ namespace BrickPi.Uwp
         /// <param name="args"></param>
         private void SerialPort_ErrorReceived(SerialDevice sender, ErrorReceivedEventArgs args)
         {
-            Debug.WriteLine(string.Format("Serial port error {0}", args.Error));
+            Debug.WriteLine($"Serial port error {args.Error}");
         }
         #endregion
 

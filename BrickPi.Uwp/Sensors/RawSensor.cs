@@ -12,8 +12,7 @@ namespace BrickPi.Uwp.Sensors
 
         protected virtual void OnChangedEventHandler(SensorEventArgs eventArgs)
         {
-            if (null != OnChanged)
-                Task.Run(() => OnChanged(this, eventArgs ?? new SensorEventArgs()));
+            OnChanged?.Invoke(this, eventArgs ?? new SensorEventArgs());
         }
 
         public RawSensor(SensorPort sensorPort)

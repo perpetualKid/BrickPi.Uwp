@@ -4,7 +4,7 @@
 
 #### Current Status
 
-The code has been tested on **Raspberry Pi 2 Model B** and Windows IoT Core OS **Version 10.0.14393.0** (Redstone/Anniversary Update). 
+The code has been tested on **Raspberry Pi 2 Model B** and **Raspberry Pi 3 Model B** and Windows IoT Core OS from **Version 10.0.14393.0** and onwards (Redstone/Anniversary Update). 
 
 So far, Lego Mindstorms NXT 2.0 Sensors and Motors are implemented and tested.
 
@@ -37,7 +37,7 @@ The application uses the Background Application template for Windows IoT Core.
 
  <img src="./media/image001.png" />
 
-Add a reference to the BrickPi.Uwp library to your project. You can either use the source code version by cloning and compiling this Github repository, or use the [BrickPi UWP Windows IoT Core Nuget package](https://www.nuget.org/packages/BrickPi.UWP/).
+Add a reference to the BrickPi.Uwp library to your project. You can either use the source code version by cloning and compiling this Github repository, or use the [**BrickPi UWP Windows IoT Core Nuget package**](https://www.nuget.org/packages/BrickPi.UWP/).
 
 To install BrickPi UWP Windows IoT Core, run the following command in the Package Manager Console 
 `Install-Package BrickPi.UWP` or run the Package Manager UI:

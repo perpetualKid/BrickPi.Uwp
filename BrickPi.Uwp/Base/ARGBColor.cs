@@ -24,7 +24,7 @@ namespace BrickPi.Uwp.Base
 
         public override string ToString()
         {
-            return string.Format("{0}-{1}-{2}-{3}", data[0], data[1], data[2], data[3]);
+            return $"{data[0]}-{data[1]}-{data[2]}-{data[3]}";
         }
     }
 

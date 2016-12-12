@@ -302,7 +302,7 @@ namespace BrickPi.Uwp
 
                 if (resultData == null || resultData.Length <= 1 || (MessageType)resultData[Const.MessageTypeIndex] != MessageType.Datagram)
                 {
-                    Debug.WriteLine(string.Format("Error Updating values: {0}", BitConverter.ToString(resultData ?? System.Text.Encoding.Unicode.GetBytes("No Data Received"))));
+                    Debug.WriteLine($"Error Updating values: {BitConverter.ToString(resultData ?? System.Text.Encoding.Unicode.GetBytes("No Data Received"))}");
                     await Task.Delay(100).ConfigureAwait(false);
                     if (retry++ < 3)
                     {
@@ -379,7 +379,7 @@ namespace BrickPi.Uwp
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(string.Format("Error sending data: {0}", ex.Message));
+                Debug.WriteLine($"Error sending data: {ex.Message}");
                 // Cleanup once complete
                 if (dataWriterObject != null)
                 {
@@ -423,7 +423,7 @@ namespace BrickPi.Uwp
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(string.Format("Error receiving data: {0}", ex.Message));
+                Debug.WriteLine($"Error receiving data: {ex.Message}");
                 // Cleanup once complete
                 if (dataReaderObject != null)
                 {
@@ -470,7 +470,7 @@ namespace BrickPi.Uwp
                 readBytesCounter += bytesRead;
             }
             else
-                Debug.WriteLine(String.Format("No bytes received"));
+                Debug.WriteLine("No bytes received");
             return result;
         }
 
