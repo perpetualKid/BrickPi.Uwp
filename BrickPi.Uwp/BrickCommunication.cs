@@ -184,7 +184,7 @@ namespace BrickPi.Uwp
                 {
                     int bytes = 3 + commandData.Bytes;
 #if DEBUGMESSAGES
-                    Debug.WriteLine("BrickPiInitializeSensors - " + arduino);
+                    Debug.WriteLine($"BrickPiInitializeSensors - {{arduino.ToString()}");
 #endif 
                     byte[] resultData = await BrickPiTxAndRx(arduino, bytes, commandData.Data, null, setupTime).ConfigureAwait(false);
                     if (null != resultData && resultData.Length == 1 && ((MessageType)resultData[Const.MessageTypeIndex] == MessageType.ChangeSensorType))
@@ -192,7 +192,7 @@ namespace BrickPi.Uwp
                         result &= true;
                         break;
                     }
-                    Debug.WriteLine("Trying again to setup sensors on Arduino " + arduino.ToString());
+                    Debug.WriteLine($"Trying again to setup sensors on Arduino {arduino.ToString()}");
                     await Task.Delay(100).ConfigureAwait(false);
                 }
             }
@@ -211,7 +211,7 @@ namespace BrickPi.Uwp
                 dataArray[Const.MessageTypeIndex] = (byte)MessageType.ChangeTimeout;
                 Array.Copy(BitConverter.GetBytes(timeout), 0, dataArray.Data, Const.TimeoutIndex, 4);
 #if DEBUGMESSAGES
-                Debug.WriteLine("BrickPiSetTimeout - " + arduino);
+                Debug.WriteLine($"BrickPiSetTimeout - {{arduino.ToString()}");
 #endif 
                 byte[] resultData = await BrickPiTxAndRx(arduino, 5, dataArray.Data).ConfigureAwait(false);
                 result &= (null != resultData && resultData.Length == 1 && ((MessageType)resultData[Const.MessageTypeIndex] == MessageType.ChangeTimeout));
@@ -231,7 +231,7 @@ namespace BrickPi.Uwp
             dataArray[Const.MessageTypeIndex] = (int)MessageType.ChangeAddress;
             dataArray[Const.NewAddressIndex] = newAddress;
 #if DEBUGMESSAGES
-            Debug.WriteLine("BrickPiChangeAddress - " + arduino);
+                Debug.WriteLine($"BrickPiSetTimeout - {arduino.ToString()}");
 #endif 
             byte[] result = await BrickPiTxAndRx(arduino, 2, dataArray.Data).ConfigureAwait(false);
 
@@ -293,7 +293,7 @@ namespace BrickPi.Uwp
 
                 int bytes = 1 + dataArray.Bytes;
 #if DEBUGMESSAGES
-                Debug.WriteLine("BrickPiUpdateValues - " + arduino);
+                Debug.WriteLine($"{nameof(this.BrickPiUpdateValues)} - {arduino.ToString()}");
 #endif 
 
                 byte[] resultData = await BrickPiTxAndRx(arduino, bytes, dataArray.Data).ConfigureAwait(false);
@@ -367,7 +367,7 @@ namespace BrickPi.Uwp
             sendBuffer[2] = (byte)byteCount;
             Array.Copy(buffer, 0, sendBuffer, 3, byteCount);
 #if DEBUGMESSAGES
-            Debug.WriteLine("Sending: {0}", new object[] { BitConverter.ToString(sendBuffer, 0, sendBuffer.Length) });
+            Debug.WriteLine($"Sending: {BitConverter.ToString(sendBuffer, 0, sendBuffer.Length) }");
 #endif
             try
             {
@@ -409,7 +409,7 @@ namespace BrickPi.Uwp
                 if ((buffer == null) || (buffer.Length < 2) || (buffer.Length < (buffer[1] + 2)))
                     return null;
 #if DEBUGMESSAGES
-                Debug.WriteLine("Receiving: {0}", new object[] { BitConverter.ToString(buffer) });
+                Debug.WriteLine($"Receiving: {BitConverter.ToString(buffer) }");
 #endif
                 long checkSum = (CrossSum(1, buffer.Length - 1, buffer) % 256);
                 if (checkSum != buffer[0])

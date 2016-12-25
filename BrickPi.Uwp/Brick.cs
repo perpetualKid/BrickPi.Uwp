@@ -67,7 +67,7 @@ namespace BrickPi.Uwp
         public static async Task<Brick> InitializeInstance(SerialDevice serialDevice)
         {
             instance = new Brick(serialDevice);
-            Task configSerialTask = Task.Run(() => instance.ConfigureSerialPort());
+            Task configSerialTask = instance.ConfigureSerialPort();
             Task<GpioController> gpioControllerTask = GpioController.GetDefaultAsync().AsTask<GpioController>();
             await Task.WhenAll(configSerialTask, gpioControllerTask);
 
@@ -101,7 +101,7 @@ namespace BrickPi.Uwp
                     serialPort = await SerialDevice.FromIdAsync(device.Id);                        ;
                     if (portName.ToLower().Equals(serialPort.PortName.ToLower()))
                     {
-                        Debug.WriteLine(string.Format("Using Serial port {1} @ {0}", device.Name, serialPort.PortName));
+                        Debug.WriteLine($"Using Serial port {serialPort.PortName} @ {device.Name}");
                         return serialPort;
                     }
                 }
@@ -113,7 +113,7 @@ namespace BrickPi.Uwp
             return serialPort;
         }
 
-        private void ConfigureSerialPort()
+        private async Task ConfigureSerialPort()
         {
             try
             {
@@ -129,6 +129,7 @@ namespace BrickPi.Uwp
                     serialPort.DataBits = 8;
 
                     serialPort.ErrorReceived += SerialPort_ErrorReceived;
+                    await Task.CompletedTask;
                 }
             }
             catch (Exception ex)
