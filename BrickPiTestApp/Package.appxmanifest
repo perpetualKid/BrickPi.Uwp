@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" xmlns:iot="http://schemas.microsoft.com/appx/manifest/iot/windows10" IgnorableNamespaces="uap mp iot">
-  <Identity Name="BrickPiTestApp-uwp" Publisher="CN=perpetualKid" Version="1.0.1.0" />
+  <Identity Name="BrickPiTestApp-uwp" Publisher="CN=perpetualKid" Version="1.0.2.0" />
   <mp:PhoneIdentity PhoneProductId="15572519-2c3d-4ffd-be70-306e1fbc173f" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>BrickPiTestApp</DisplayName>
