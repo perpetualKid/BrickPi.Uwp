@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrickPiTestApp", "BrickPiTestApp\BrickPiTestApp.csproj", "{1D1BB63F-D7D0-4034-960D-D1DEDE0A8872}"
 EndProject
@@ -91,7 +91,7 @@ Global
 		{7496FC96-036C-49E5-8E51-69CFEFA84FCE}.UnitTest|x64.Build.0 = UnitTest|x64
 		{7496FC96-036C-49E5-8E51-69CFEFA84FCE}.UnitTest|x86.ActiveCfg = UnitTest|x86
 		{7496FC96-036C-49E5-8E51-69CFEFA84FCE}.UnitTest|x86.Build.0 = UnitTest|x86
-		{4E83D7C8-3EAF-4793-83F8-24680DCCF985}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E83D7C8-3EAF-4793-83F8-24680DCCF985}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{4E83D7C8-3EAF-4793-83F8-24680DCCF985}.Debug|ARM.ActiveCfg = Debug|ARM
 		{4E83D7C8-3EAF-4793-83F8-24680DCCF985}.Debug|ARM.Build.0 = Debug|ARM
 		{4E83D7C8-3EAF-4793-83F8-24680DCCF985}.Debug|ARM.Deploy.0 = Debug|ARM
