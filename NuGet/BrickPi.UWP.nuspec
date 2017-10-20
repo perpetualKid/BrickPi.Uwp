@@ -2,17 +2,17 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>BrickPi.UWP</id>
-        <version>1.0.2</version>
+        <version>1.0.6</version>
         <title>BrickPi UWP Windows IoT Core</title>
         <authors>perpetualKid</authors>
         <licenseUrl>https://github.com/perpetualKid/BrickPi.Uwp/blob/master/LICENSE</licenseUrl>
         <projectUrl>https://github.com/perpetualKid/BrickPi.Uwp</projectUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>Windows 10 IoT Core UWP implementation for Raspberry Pi and Dexter BrickPi LEGO MINDSTORMS board</description>
-        <releaseNotes>Initial Release, including all basic motor functionality (Speed, Enabled/Disabled, Encoder), and Mindstorms NXT 2.0 sensors (Touch, Color, UltraSonic). Requires Windows IoT Core Creators Update Version 10.0.15063.0 or higher.</releaseNotes>
+        <releaseNotes>Initial Release, including all basic motor functionality (Speed, Enabled/Disabled, Encoder), and Mindstorms NXT 2.0 sensors (Touch, Color, UltraSonic). Requires Windows IoT Core Fall Creators Update Version 10.0.16299 or higher.</releaseNotes>
         <tags>dexter brickpi windows uwp iot iot-core</tags>
         <dependencies>
-            <dependency id="Microsoft.NETCore.UniversalWindowsPlatform" version="5.3.3" />
+            <dependency id="Microsoft.NETCore.UniversalWindowsPlatform" version="6.0.1" />
         </dependencies>
     </metadata>
     <files>
