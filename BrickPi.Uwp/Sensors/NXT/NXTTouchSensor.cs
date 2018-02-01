@@ -6,9 +6,9 @@ namespace BrickPi.Uwp.Sensors.NXT
 {
     public sealed class NXTTouchSensor: RawSensor
     {
-        public event EventHandler<SensorEventArgs> OnPressed;
+        public event EventHandler<SensorChangedEventArgs> OnPressed;
 
-        public event EventHandler<SensorEventArgs> OnReleased;
+        public event EventHandler<SensorChangedEventArgs> OnReleased;
 
         public bool Pressed { get; set; }
 
@@ -36,16 +36,14 @@ namespace BrickPi.Uwp.Sensors.NXT
             Pressed = (RawValue != 0);
             if (state != Pressed)
             {
-                this.OnChangedEventHandler(new TouchSensorEventArgs() { Pressed = this.Pressed});
+                this.OnChangedEventHandler(new TouchSensorChangedEventArgs() { Pressed = this.Pressed});
                 if (Pressed)
                 {
-                    if (null != OnPressed)
-                        Task.Run(() => OnPressed(this, new SensorEventArgs()));
+                    OnPressed?.Invoke(this, new SensorChangedEventArgs());
                 }
                 else
                 {
-                    if (null != OnReleased)
-                        Task.Run(() => OnReleased(this, new SensorEventArgs()));
+                    OnReleased?.Invoke(this, new SensorChangedEventArgs());
                 }
             }
         }

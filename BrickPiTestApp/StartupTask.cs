@@ -7,6 +7,7 @@ using BrickPi.Uwp;
 using BrickPi.Uwp.Base;
 using BrickPi.Uwp.Motors;
 using BrickPi.Uwp.Sensors;
+using BrickPi.Uwp.Sensors.Hitechnic;
 using BrickPi.Uwp.Sensors.NXT;
 using Windows.ApplicationModel.Background;
 using Windows.Devices.Gpio;
@@ -30,6 +31,7 @@ namespace BrickPiTestApp
         private Motor motorB;
         private Motor motorD;
         private const int LED_PIN = 47;
+        private HiTechnicTouchMultiplexer multiTouch;
 
 
         public async void Run(IBackgroundTaskInstance taskInstance)
@@ -44,11 +46,14 @@ namespace BrickPiTestApp
             Debug.WriteLine(string.Format("Brick Version: {0}", version));
             bool timeoutSuccess = await brick.SetTimeout(200);
             Debug.WriteLine(string.Format("Setting timeout succesfully: {0}", timeoutSuccess));
-            touch = new NXTTouchSensor(SensorPort.Port_S1, SensorType.TOUCH_DEBOUNCE);
-            touch.OnPressed += Touch_OnPressed;
-            touch.OnReleased += Touch_OnReleased;
-            touch.OnChanged += Touch_OnChanged;
-            await brick.Sensors.Add(touch, true);
+            multiTouch = new HiTechnicTouchMultiplexer(SensorPort.Port_S1);
+            multiTouch.OnChanged += MultiTouch_OnChanged;
+            await brick.Sensors.Add(multiTouch);
+            //touch = new NXTTouchSensor(SensorPort.Port_S1, SensorType.TOUCH_DEBOUNCE);
+            //touch.OnPressed += Touch_OnPressed;
+            //touch.OnReleased += Touch_OnReleased;
+            //touch.OnChanged += Touch_OnChanged;
+            //await brick.Sensors.Add(touch, true);
 
             ultrasonic = new NXTUltraSonicSensor(SensorPort.Port_S2, SensorType.ULTRASONIC_CONT);
             ultrasonic.Threshold = 5;
@@ -81,7 +86,14 @@ namespace BrickPiTestApp
             //brick.Start();
         }
 
-        private void Touch_OnReleased(object sender, SensorEventArgs e)
+        private void MultiTouch_OnChanged(object sender, SensorChangedEventArgs e)
+        {
+            TouchMultiplexerChangedEventArgs data = (e as TouchMultiplexerChangedEventArgs);
+            Debug.WriteLine($"Pressed {data.PressedButtons.HasFlag(MultiplexerButtons.Button1)} {data.PressedButtons.HasFlag(MultiplexerButtons.Button2)} {data.PressedButtons.HasFlag(MultiplexerButtons.Button3)} {data.PressedButtons.HasFlag(MultiplexerButtons.Button4)}");
+            Debug.WriteLine($"Changed {data.ChangedButtons.HasFlag(MultiplexerButtons.Button1)} {data.ChangedButtons.HasFlag(MultiplexerButtons.Button2)} {data.ChangedButtons.HasFlag(MultiplexerButtons.Button3)} {data.ChangedButtons.HasFlag(MultiplexerButtons.Button4)}");
+        }
+
+        private void Touch_OnReleased(object sender, SensorChangedEventArgs e)
         {
             //motorA.Velocity = 0;
             //motorB.Velocity = 0;
@@ -92,7 +104,7 @@ namespace BrickPiTestApp
 
         }
 
-        private void Touch_OnPressed(object sender, SensorEventArgs e)
+        private void Touch_OnPressed(object sender, SensorChangedEventArgs e)
         {
             motorA.Velocity = -50;
             motorA.Enabled = true;
@@ -103,7 +115,7 @@ namespace BrickPiTestApp
         }
 
 
-        private void Touch_OnChanged(object sender, SensorEventArgs e)
+        private void Touch_OnChanged(object sender, SensorChangedEventArgs e)
         {
             //            ledPin.Write(touch.IsPressed() ? GpioPinValue.High : GpioPinValue.Low);
             Debug.WriteLine(string.Format("NXT US, Distance: {0}, ", ultrasonic.Distance));
@@ -112,7 +124,7 @@ namespace BrickPiTestApp
 #else
             Debug.WriteLine(string.Format("NXT Color, Raw: {0}, RGB: {1}", color.RawValue, color.ColorData.ToString()));
 #endif
-            if ((e as TouchSensorEventArgs).Pressed)
+            if ((e as TouchSensorChangedEventArgs).Pressed)
             {
                 Debug.WriteLine("Motor A Encoder: {0} Motor B Encoder: {1} Motor D Encoder: {2}", motorA.Encoder, motorB.Encoder, motorD.Encoder);
                 brick.Arduino2Led.Light = true;

@@ -8,11 +8,11 @@ namespace BrickPi.Uwp.Sensors
     {
         private readonly SensorPort sensorPort;
 
-        public event EventHandler<SensorEventArgs> OnChanged;
+        public event EventHandler<SensorChangedEventArgs> OnChanged;
 
-        protected virtual void OnChangedEventHandler(SensorEventArgs eventArgs)
+        protected virtual void OnChangedEventHandler(SensorChangedEventArgs eventArgs)
         {
-            OnChanged?.Invoke(this, eventArgs ?? new SensorEventArgs());
+            OnChanged?.Invoke(this, eventArgs ?? new SensorChangedEventArgs());
         }
 
         public RawSensor(SensorPort sensorPort)

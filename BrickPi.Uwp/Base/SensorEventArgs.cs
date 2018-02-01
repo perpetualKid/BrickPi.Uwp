@@ -2,23 +2,23 @@
 
 namespace BrickPi.Uwp.Base
 {
-    public class SensorEventArgs: EventArgs
+    public class SensorChangedEventArgs: EventArgs
     {
 
     }
 
-    public class TouchSensorEventArgs: SensorEventArgs
+    public class TouchSensorChangedEventArgs: SensorChangedEventArgs
     {
         public bool Pressed { get; set; }
     }
 
-    public class UltraSonicSensorEventArgs: SensorEventArgs
+    public class UltraSonicSensorEventArgs: SensorChangedEventArgs
     {
         public int Distance { get; set; }             
     }
 
     public interface IPropertyChangedEvent
     {
-        event EventHandler<SensorEventArgs> OnChanged;
+        event EventHandler<SensorChangedEventArgs> OnChanged;
     }
 }
