@@ -6,30 +6,19 @@
 
 The code has been tested on **Raspberry Pi 2 Model B** and **Raspberry Pi 3 Model B** and Windows IoT Core OS from **Version 10.0.14393.0** and onwards (Redstone/Anniversary Update). 
 
-So far, Lego Mindstorms NXT 2.0 Sensors and Motors are implemented and tested.
+Lego Mindstorms NXT 2.0 Sensors and Motors are implemented and tested, as well some of the [HiTechnic](http://modernroboticsinc.com/hitechnic_products) sensors and port multiplexer:
 
-- Mindstorms [NXT Touch Sensor](http://shop.lego.com/en-US/Touch-Sensor-9843)
-- Mindstorms [NXT  Color sensor](http://shop.lego.com/en-US/Color-Sensor-9694) (see also "Known Issues" section below)
+##### Mindstorms
+- Mindstorms [NXT Touch Sensor](https://shop.lego.com/en-CH/Touch-Sensor-9843)
+- Mindstorms [NXT  Color sensor](http://shop.lego.com/en-CH/Color-Sensor-9694) (see also [Known Issues](#Known-Issues) section )
 - Mindstorms [NXT Ultrasonic Sensor](http://shop.lego.com/en-US/Ultrasonic-Sensor-9846)
 - Mindstorms [EV3 Touch Sensor](http://shop.lego.com/en-US/EV3-Touch-Sensor-45507) (untested)
 
-#### Next steps
-
-Next steps include further sensors implementation, such as [Hitechnic Mindstorms Sensors](https://www.hitechnic.com/sensors) and additional Mindstorms EV3 sensors. Also planning to add some more functionality for motors, such as synchronization and PID motor control.
+##### HiTechnic
+- HiTechnic NXT [Touch Sensor Multiplexer](http://modernroboticsinc.com/hitechnic-nxt-touch-sensor-multiplexer)
+- HiTechnic [Angle Sensor](http://modernroboticsinc.com/hitechnic-nxt-angle-sensor)
 
 ## Getting Started
-
-#### Raspberry Pi setup
-
-BrickPi requires a fixed non-standard Baud rate of 500.000 baud. As high speed onboard serial is not supported in early versions of Windows 10 IoT Core, you need to manually change the device registry and enable the highspeed serial. 
-Open a remote console sessiion to the Raspberry Pi, and use the following command to enable highspeed serial. 
-
-```CMD
-Reg add hklm\system\controlset001\services\serpl011\parameters /v MaxBaudRateNoDmaBPS /t REG_DWORD /d 921600
-Devcon restart acpi\bcm2837
-```
-
-Note: This has to be done only once, and should survive subsequent Windows Updates. If you reimage Windows on your Raspberry Pi to start from scratch, you will need to reapply above patch.
 
 #### Setting up a new project
 
@@ -53,7 +42,7 @@ To install BrickPi UWP Windows IoT Core, run the following command in the Packag
   <img src="./media/image004.png" />
 
 
-Once the project is created, you need to enable support for serial port capabilities. This can't be achieved in the UI Manifest editor, so you'll need to text edit the Package.appmanifest file and add (there will be an internetClient capability by default):
+Once the project is created, you need to enable support for serial port capabilities. This can't be done in the UI Manifest editor, so you'll need to text edit the Package.appmanifest file and add (there will be an internetClient capability by default):
 
 ```XML
   <Capabilities>
@@ -87,7 +76,7 @@ More details about this can be found in the
 
 ### BrickPi
 
-Next you need to get a reference to the BrickPi instance. The BrickPi is connected to an UART port on the Raspberry, which could be specified by name like "UART0". The current Raspberry Pi only has one UART available, this could be dropped and the first available UART is used
+Next you need to get a reference to the BrickPi instance. The BrickPi is connected to an UART port on the Raspberry, which is referenced by name like "UART0". As current Raspberry Pi only have one UART available, name parameter could be dropped and the first available UART is used
 
 
 ```C#
@@ -103,7 +92,7 @@ Debug.WriteLine(string.Format("Brick Version: {0}", version));
 
 The BrickPi should always return version **2**. You should always call `GetBrickVersion()` before you configure any sensors, as this resets any sensor information. This is due to the fact how the firmware version is queried internally by setting all sensors to a specific (non-existing) sensor type.
 
-Internally, the BrickPi runs two Arduinos on the board. Each Arduino has a tiny blue LED connected, which could be controlled through corresponding GPIO-pins from the RaspBerry Pi. Arduino1 Led is controlled through GPIO port 18, corresponding to pin 12 on the RaspBerry Pi 40-pin header, and Arduino2 Led is controlled through GPIO port 27, corresponding to pin 13 on the RaspBerry Pi 40-pin header. Further details on GPIO pin mappings can be found at the [Raspberry Pi 2 & 3 Pin Mappings](https://developer.microsoft.com/en-us/windows/iot/win10/samples/pinmappingsrpi2) overview.
+Internally, the BrickPi runs two Arduinos on the board. Each Arduino has a tiny blue LED connected, which can be controlled on corresponding GPIO-pins from the RaspBerry Pi. Arduino1 Led is connected to GPIO port 18, corresponding to pin 12 on the RaspBerry Pi 40-pin header, and Arduino2 Led is connected on GPIO port 27, corresponding to pin 13 on the RaspBerry Pi 40-pin header. Further details on GPIO pin mappings can be found at the [Raspberry Pi 2 & 3 Pin Mappings](https://developer.microsoft.com/en-us/windows/iot/win10/samples/pinmappingsrpi2) overview.
 
 To use the LED in code, you can either set the status (ON or OFF) explicitely, or just toggle from current status
 
@@ -114,7 +103,7 @@ brick.Arduino2Led.Light= true;	//explicitely set status to ON
 
 ### Motors
 
-Motors ([Standard NXT Motors](http://shop.lego.com/en-US/Interactive-Servo-Motor-9842)) do not need specific configuration, therefore instances are preinitialized and can be referred through the BrickPi.Motors collection:
+Motors ([Standard NXT Motors](http://shop.lego.com/en-US/Interactive-Servo-Motor-9842)) do not need specific configuration, instances are preinitialized and can be referred through the BrickPi.Motors collection:
 
 ```C#
 Motor motorA = brick.Motors[MotorPort.Port_MA];
@@ -146,7 +135,7 @@ motorA.EncoderOffset = motorA.Encoder;
 
 ### Sensors
 
-Sensor ports typically need to be initialized with the specific sensor type, as different sensors use different response data format. If not initialiezd, each sensor port is initialized with a RawSensor (technically sending a 10-bit response value), which some analog sensors are using. Instances of the specific sensor type need to be created, and attached to the Brick.Sensors collection. If multiple sensors will be attached, initialization can be hold until all sensors are created and added to the collection.
+Sensor ports need to be initialized with the specific sensor type, as different sensors use different response data format. If not explicitely initialiezd, each sensor port is initialized as a RawSensor (technically sending a 10-bit response value), which some analog sensors are using. Instances of the specific sensor type need to be created, and attached to the Brick.Sensors collection. If multiple sensors will be attached, initialization can be hold until all sensors are created and added to the collection.
 
 ```C#
 NXTTouchSensor touch = new NXTTouchSensor(SensorPort.Port_S1, SensorType.TOUCH_DEBOUNCE);
@@ -159,11 +148,11 @@ if (!await brick.InitializeSensors())		//now explicitely call sensor initializat
 	Debug.WriteLine("Something went wrong initializing sensors");
 ```
 
-Sensor data needs to be polled from the BrickPi. This can be done in a single shot using `brick.UpdateValues()`. Most often a continuous loop will be run to poll sensor data (and motor encoder data) continously, this can be done by calling `brick.Start()`
+Sensor data actively needs to be polled from the BrickPi. This can be done in a single shot using `brick.UpdateValues()`. Most often a continuous loop will be run to poll sensor data (and motor encoder data) continously, this can be done by calling `brick.Start()`
 
 #### Sensor Data
 
-Sensor's internal data buffer will be updated either through non-reccuring or continuous sensor data polling (see above). In the application, sensor data can than be accessed through the various sensor properties, i.e. the UltraSonic sensor has a property for Distance, or Touch Sensor a boolean property indicating if the button is Pressed:
+Sensor's internal data buffer will be updated either through single or continuous sensor data polling (see above). In the application, sensor data can than be accessed through the various sensor properties, i.e. the UltraSonic sensor has a property for Distance, or Touch Sensor a boolean property indicating if the button is Pressed:
 ```C#
 Debug.WriteLine(string.Format("NXT Ultrasonic, Distance: {0}, ", ultrasonic.Distance)); //distance in cm
 Debug.WriteLine(string.Format("NXT Touch, Is Pressed: {0}, ", touch.Pressed)); //true if pressed

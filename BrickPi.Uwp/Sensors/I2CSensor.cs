@@ -68,7 +68,7 @@ namespace BrickPi.Uwp.Sensors
                         requestData.SetBits(3, 4, (uint)device.WriteBytes);
                         requestData.SetBits(3, 4, (uint)device.ReadBytes);
 
-                        for (int out_byte = 0; out_byte < device.WriteBytes; out_byte++)
+                    for (int out_byte = 0; out_byte < device.WriteBytes; out_byte++)
                             requestData.SetBits(3, 8, (uint)device.WriteData[out_byte]);
                     }
 

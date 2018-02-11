@@ -21,7 +21,6 @@ namespace BrickPi.Uwp.Sensors.Hitechnic
 
     public sealed class HiTechnicTouchMultiplexer: RawSensor
     {
-        MultiplexerButtons buttonState;
         private int state = 0;
 
         public HiTechnicTouchMultiplexer(SensorPort sensorPort) : base(sensorPort)
@@ -36,8 +35,6 @@ namespace BrickPi.Uwp.Sensors.Hitechnic
             scaled /= RawValue;
             scaled += 5;
             scaled /= 10;
-            int changed = 0;
-            changed ^= scaled;
             if (state != scaled)
             {
                 this.OnChangedEventHandler(new TouchMultiplexerChangedEventArgs() {

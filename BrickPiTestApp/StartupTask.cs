@@ -32,6 +32,7 @@ namespace BrickPiTestApp
         private Motor motorD;
         private const int LED_PIN = 47;
         private HiTechnicTouchMultiplexer multiTouch;
+        private HiTechnicAngleSensor angle;
 
 
         public async void Run(IBackgroundTaskInstance taskInstance)
@@ -46,9 +47,14 @@ namespace BrickPiTestApp
             Debug.WriteLine(string.Format("Brick Version: {0}", version));
             bool timeoutSuccess = await brick.SetTimeout(200);
             Debug.WriteLine(string.Format("Setting timeout succesfully: {0}", timeoutSuccess));
-            multiTouch = new HiTechnicTouchMultiplexer(SensorPort.Port_S1);
-            multiTouch.OnChanged += MultiTouch_OnChanged;
-            await brick.Sensors.Add(multiTouch);
+
+            angle = new HiTechnicAngleSensor(SensorPort.Port_S1);
+            angle.OnChanged += Angle_OnChanged;
+            await brick.Sensors.Add(angle, true);
+            //multiTouch = new HiTechnicTouchMultiplexer(SensorPort.Port_S1);
+            //multiTouch.OnChanged += MultiTouch_OnChanged;
+            //await brick.Sensors.Add(multiTouch);
+
             //touch = new NXTTouchSensor(SensorPort.Port_S1, SensorType.TOUCH_DEBOUNCE);
             //touch.OnPressed += Touch_OnPressed;
             //touch.OnReleased += Touch_OnReleased;
@@ -84,6 +90,11 @@ namespace BrickPiTestApp
             //await brick.Stop();
             await Task.Delay(5000);
             //brick.Start();
+        }
+
+        private void Angle_OnChanged(object sender, SensorChangedEventArgs e)
+        {
+            Debug.WriteLine($"Angle:{angle.Angle} AccAngle:{angle.AccumulatedAngle} RPM:{angle.RPM}");
         }
 
         private void MultiTouch_OnChanged(object sender, SensorChangedEventArgs e)
