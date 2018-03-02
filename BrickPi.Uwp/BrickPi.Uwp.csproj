@@ -110,6 +110,7 @@
     <Compile Include="Base\Const.cs" />
     <Compile Include="Base\Enums.cs" />
     <Compile Include="Base\ARGBColor.cs" />
+    <Compile Include="Base\SensorActionDelegate.cs" />
     <Compile Include="Base\SensorEventArgs.cs" />
     <Compile Include="Base\MaskType.cs" />
     <Compile Include="Base\MessageType.cs" />
@@ -125,6 +126,7 @@
     <Compile Include="Sensors\EV3\EV3TouchSensor.cs" />
     <Compile Include="Sensors\Hitechnic\HiTechnicAngleSensor.cs" />
     <Compile Include="Sensors\Hitechnic\HiTechnicTouchMultiplexer.cs" />
+    <Compile Include="Sensors\I2CData.cs" />
     <Compile Include="Sensors\I2CSensor.cs" />
     <Compile Include="Motors\Motor.cs" />
     <Compile Include="Sensors\NXT\NXTUltraSonicSensor.cs" />

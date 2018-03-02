@@ -4,37 +4,14 @@ using BrickPi.Uwp.Base;
 
 namespace BrickPi.Uwp.Sensors
 {
-    public sealed class I2CData
-    {
-        public int Setting { get; set; }
-        public int Address {get; set; } 
-        public int WriteBytes { get; set; }
-        public int ReadBytes { get; set; }
-
-        public byte[] ReadData = new byte[16];
-
-        public byte[] WriteData = new byte[16];
-    }
-
-    public class I2CDataCollection : List<I2CData>
-    {
-        public I2CDataCollection(): this(8)
-        {
-
-        }
-
-        public I2CDataCollection(int size)
-        {
-            for (int i = 0; i < size; i++)
-            {
-                this.Add(new I2CData());
-            }
-        }
-    }
-
     public class I2CSensor : RawSensor
     {
         protected I2CDataCollection I2CData = new I2CDataCollection();
+
+        protected SensorActionDelegate requestAction;
+        protected SensorActionDelegate responseAction;
+
+        public int ChangeEventThreshold { get; set; }
 
         public I2CSensor(SensorPort sensorPort) : base(sensorPort)
         {
@@ -79,6 +56,8 @@ namespace BrickPi.Uwp.Sensors
 
         public override void UpdateSensorRequest(ProtocolArray requestData)
         {
+            requestAction?.Invoke(requestData);
+
             base.UpdateSensorRequest(requestData);
 
             int arduinoPort = (int)SensorPort.ArduinoPort();
@@ -119,6 +98,8 @@ namespace BrickPi.Uwp.Sensors
                 else
                     RawValue = -1;
             }
+
+            responseAction?.Invoke(responseData);
         }
     }
 }

@@ -8,9 +8,6 @@
 
         public const int US_I2C_SPEED = 10; //#tweak this value
         public const int US_I2C_IDX = 0;
-        public const int LEGO_US_I2C_ADDR = 0x02;
-        public const int LEGO_US_I2C_DATA_REG = 0x42;
-
 
         //# Sensor setup (MSG_TYPE_SENSOR_TYPE)
         public const int SensorIndex = 1;

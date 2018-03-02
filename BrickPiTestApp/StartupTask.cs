@@ -62,7 +62,7 @@ namespace BrickPiTestApp
             //await brick.Sensors.Add(touch, true);
 
             ultrasonic = new NXTUltraSonicSensor(SensorPort.Port_S2, SensorType.ULTRASONIC_CONT);
-            ultrasonic.Threshold = 5;
+            ultrasonic.ChangeEventThreshold = 5;
             await brick.Sensors.Add(ultrasonic, true);
 
 #if COLOR
@@ -89,7 +89,9 @@ namespace BrickPiTestApp
             //motorA.SetTachoCount(motorA.GetTachoCount());
             //await brick.Stop();
             await Task.Delay(5000);
-            //brick.Start();
+
+            Debug.WriteLine("Setting Angle Sensor zero");
+            angle.ResetAccumulatedAngle();
         }
 
         private void Angle_OnChanged(object sender, SensorChangedEventArgs e)
