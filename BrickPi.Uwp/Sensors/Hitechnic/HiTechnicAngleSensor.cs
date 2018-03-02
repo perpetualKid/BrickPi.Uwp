@@ -45,12 +45,6 @@ namespace BrickPi.Uwp.Sensors.Hitechnic
             responseAction = this.ReadSensorDataResponse;
         }
 
-        public override TimeSpan? InitializeSensorRequest(ProtocolArray requestData)
-        {
-            return base.InitializeSensorRequest(requestData);
-        }
-
-
         public void SetZeroAngle()
         {
             resetCommand = HTANG_CMD_RST_ANG;

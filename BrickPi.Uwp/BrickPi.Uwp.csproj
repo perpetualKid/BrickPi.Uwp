@@ -125,6 +125,7 @@
     <Compile Include="Base\ProtocolArray.cs" />
     <Compile Include="Sensors\EV3\EV3TouchSensor.cs" />
     <Compile Include="Sensors\Hitechnic\HiTechnicAngleSensor.cs" />
+    <Compile Include="Sensors\Hitechnic\HiTechnicCompassSensor.cs" />
     <Compile Include="Sensors\Hitechnic\HiTechnicTouchMultiplexer.cs" />
     <Compile Include="Sensors\I2CData.cs" />
     <Compile Include="Sensors\I2CSensor.cs" />

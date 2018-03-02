@@ -17,6 +17,7 @@ Lego Mindstorms NXT 2.0 Sensors and Motors are implemented and tested, as well s
 ##### HiTechnic
 - HiTechnic NXT [Touch Sensor Multiplexer](http://modernroboticsinc.com/hitechnic-nxt-touch-sensor-multiplexer)
 - HiTechnic [Angle Sensor](http://modernroboticsinc.com/hitechnic-nxt-angle-sensor)
+- HiTechnic [Compass Sensor](http://modernroboticsinc.com/hitechnic-nxt-compass-sensor)
 
 ## Getting Started
 

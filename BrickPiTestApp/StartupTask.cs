@@ -32,7 +32,7 @@ namespace BrickPiTestApp
         private Motor motorD;
         private const int LED_PIN = 47;
         private HiTechnicTouchMultiplexer multiTouch;
-        private HiTechnicAngleSensor angle;
+        private HiTechnicCompassSensor compass;
 
 
         public async void Run(IBackgroundTaskInstance taskInstance)
@@ -48,9 +48,9 @@ namespace BrickPiTestApp
             bool timeoutSuccess = await brick.SetTimeout(200);
             Debug.WriteLine(string.Format("Setting timeout succesfully: {0}", timeoutSuccess));
 
-            angle = new HiTechnicAngleSensor(SensorPort.Port_S1);
-            angle.OnChanged += Angle_OnChanged;
-            await brick.Sensors.Add(angle, true);
+            compass = new HiTechnicCompassSensor(SensorPort.Port_S1);
+            compass.OnChanged += Sensor_OnChanged;
+            await brick.Sensors.Add(compass, true);
             //multiTouch = new HiTechnicTouchMultiplexer(SensorPort.Port_S1);
             //multiTouch.OnChanged += MultiTouch_OnChanged;
             //await brick.Sensors.Add(multiTouch);
@@ -90,13 +90,29 @@ namespace BrickPiTestApp
             //await brick.Stop();
             await Task.Delay(5000);
 
-            Debug.WriteLine("Setting Angle Sensor zero");
-            angle.ResetAccumulatedAngle();
+            //Debug.WriteLine("Setting Angle Sensor zero");
+            //angle.ResetAccumulatedAngle();
+
+            //Debug.WriteLine("Starting Compass Calibration");
+            //compass.BeginCompassCalibration();
+            //for (int j = 0; j < 4; j++)
+            //{
+            //    if (j % 2 == 0)
+            //        Debug.WriteLine("Change Direction");
+            //    for (int i = 0; i < 20; i++)
+            //    {
+            //        Debug.WriteLine($"Turn {j} Step {i}");
+            //        await Task.Delay(1000);
+            //    }
+            //}
+            //compass.EndCompassCalibration();
+            //Debug.WriteLine("Done Compass Calibration");
+
         }
 
-        private void Angle_OnChanged(object sender, SensorChangedEventArgs e)
+        private void Sensor_OnChanged(object sender, SensorChangedEventArgs e)
         {
-            Debug.WriteLine($"Angle:{angle.Angle} AccAngle:{angle.AccumulatedAngle} RPM:{angle.RPM}");
+            Debug.WriteLine($"Direction:{compass.Heading}");
         }
 
         private void MultiTouch_OnChanged(object sender, SensorChangedEventArgs e)
