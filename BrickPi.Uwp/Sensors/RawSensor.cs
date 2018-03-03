@@ -49,10 +49,10 @@ namespace BrickPi.Uwp.Sensors
                     //case SensorType.LIGHT_OFF:
                     RawValue = (int)responseData.GetBits(1, 10);
                     break;
-                case SensorType.LIGHT_ON:
-                    throw new NotImplementedException();
-                case SensorType.RCX_LIGHT:
-                    throw new NotImplementedException();
+                //case SensorType.LIGHT_ON:
+                //    throw new NotImplementedException();
+                //case SensorType.RCX_LIGHT:
+                //    throw new NotImplementedException();
 
                 case SensorType.EV3_INFRARED_M2:
                 case SensorType.EV3_GYRO_M3:

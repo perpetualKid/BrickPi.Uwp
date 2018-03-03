@@ -17,7 +17,6 @@ namespace BrickPi.Uwp.Sensors.Hitechnic
 
         public int DirectionalRotationRate { get; private set; }
 
-
         public HiTechnicGyroSensor(SensorPort sensorPort): base(sensorPort)
         {
             SensorType = SensorType.RAW;

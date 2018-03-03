@@ -189,10 +189,8 @@ namespace BrickPi.Uwp
 
         public float Voltage
         {
-            /* 
-             * The ten-bit output code of MCP3021Sensor is composed of the lower 4-bit of the first byte and the upper 6-bit of the second byte. 
-             * The chip has a 3.3V reference and there is a 45k/10k voltage divider, so value of 1024 represents 18.15V. 
-             */
+            // The ten-bit output code of MCP3021Sensor is composed of the lower 4-bit of the first byte and the upper 6-bit of the second byte. 
+            // The chip has a 3.3V reference and there is a 45k/10k voltage divider, so value of 1024 represents 18.15V. 
             get
             {
                 if (mcp3021Sensor != null)
@@ -200,7 +198,6 @@ namespace BrickPi.Uwp
                     byte[] buffer = new byte[2];
                     mcp3021Sensor.Read(buffer);
                     return (float)Math.Round((((buffer[0] & 0b1111) << 6) | (buffer[1] >> 2)) * 0.01815, 2);
-
                 }
                 return float.NaN;
             }

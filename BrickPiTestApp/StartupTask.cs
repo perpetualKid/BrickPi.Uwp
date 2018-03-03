@@ -33,7 +33,8 @@ namespace BrickPiTestApp
         private const int LED_PIN = 47;
         private HiTechnicTouchMultiplexer multiTouch;
         //private HiTechnicCompassSensor compass;
-        private HiTechnicGyroSensor gyro;
+        //private HiTechnicGyroSensor gyro;
+        private HiTechnicEOPDSensor eopd;
 
 
         public async void Run(IBackgroundTaskInstance taskInstance)
@@ -49,6 +50,9 @@ namespace BrickPiTestApp
             bool timeoutSuccess = await brick.SetTimeout(200);
             Debug.WriteLine(string.Format("Setting timeout succesfully: {0}", timeoutSuccess));
 
+            eopd = new HiTechnicEOPDSensor(SensorPort.Port_S1);
+            eopd.OnChanged += Sensor_OnChanged;
+            await brick.Sensors.Add(eopd, true);
             //gyro = new HiTechnicGyroSensor(SensorPort.Port_S1);
             //gyro.OnChanged += Sensor_OnChanged;
             //await brick.Sensors.Add(gyro, true);
@@ -85,12 +89,12 @@ namespace BrickPiTestApp
 
             brick.Start();
 
-            while (true)
-            {
-                //                await brick.UpdateValues();
-                Debug.WriteLine($"Voltage {brick.Voltage}V");
-                await Task.Delay(1000);
-            }
+            //while (true)
+            //{
+            //    //                await brick.UpdateValues();
+            //    Debug.WriteLine($"Voltage {brick.Voltage}V");
+            //    await Task.Delay(1000);
+            //}
 
             //motorA.SetTachoCount(motorA.GetTachoCount());
             //await brick.Stop();
@@ -118,7 +122,7 @@ namespace BrickPiTestApp
 
         private void Sensor_OnChanged(object sender, SensorChangedEventArgs e)
         {
-            Debug.WriteLine($"Color:{color.ColorName} Data: {color.ColorData}");            
+            Debug.WriteLine($"Eopd:{eopd.EOPDValue} ProcessedValue {eopd.ProcessedValue}");
         }
 
         private void MultiTouch_OnChanged(object sender, SensorChangedEventArgs e)

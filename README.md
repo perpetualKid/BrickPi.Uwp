@@ -19,6 +19,7 @@ Lego Mindstorms NXT 2.0 Sensors and Motors are implemented and tested, and many 
 - HiTechnic [Angle Sensor](http://modernroboticsinc.com/hitechnic-nxt-angle-sensor)
 - HiTechnic [Compass Sensor](http://modernroboticsinc.com/hitechnic-nxt-compass-sensor)
 - HiTechnic [Gyro Sensor (legacy)](http://www.hitechnic.com/cgi-bin/commerce.cgi?preadd=action&key=NGY1044)
+- HiTechnic [EOPD Sensor](http://modernroboticsinc.com/hitechnic-nxt-eopd)
 
 ## Getting Started
 
@@ -209,7 +210,7 @@ ultrasonic.Threshold = 5;
 
 ### Voltage
 
-The BrickPi+ has an onboard MCP3031 chip, connected to the Raspberry I2C bus. This chip can be used to read the current voltage supplied to the Raspberry/BrickPi stack, i.e. to monitor battery supply.
+The BrickPi+ has an onboard MCP3031 chip, connected to the Raspberry I2C bus. This chip can be used to read the current voltage supplied to the Raspberry/BrickPi stack, i.e. to monitor power supply from battery.
 
 Simple read the brick's Voltage property.
 
