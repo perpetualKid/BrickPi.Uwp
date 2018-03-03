@@ -1,12 +1,12 @@
 # BrickPi.Uwp for Windows IoT Core
 
-[Windows 10 IoT Core](https://developer.microsoft.com/en-us/windows/iot) [Universal Windows Platform (UWP)](https://msdn.microsoft.com/en-us/windows/uwp/get-started/universal-application-platform-guide) implementation for [Dexter BrickPi](http://www.dexterindustries.com/BrickPi/) board on [Raspberry Pi](https://www.raspberrypi.org/products/raspberry-pi-2-model-b/) and enabling [LEGO MINDSTORMS](http://www.lego.com/mindstorms/) components to be controlled by Windows 10 IoT Core.
+[Windows 10 IoT Core](https://developer.microsoft.com/en-us/windows/iot) [Universal Windows Platform (UWP)](https://msdn.microsoft.com/en-us/windows/uwp/get-started/universal-application-platform-guide) implementation for [Dexter BrickPi+](https://www.dexterindustries.com/brickpi-tutorials-documentation/) board on [Raspberry Pi](https://www.raspberrypi.org/products/raspberry-pi-2-model-b/) and enabling [LEGO MINDSTORMS](http://www.lego.com/mindstorms/) components to be controlled by Windows 10 IoT Core.
 
 #### Current Status
 
 The code has been tested on **Raspberry Pi 2 Model B** and **Raspberry Pi 3 Model B** and Windows IoT Core OS from **Version 10.0.14393.0** and onwards (Redstone/Anniversary Update). 
 
-Lego Mindstorms NXT 2.0 Sensors and Motors are implemented and tested, as well some of the [HiTechnic](http://modernroboticsinc.com/hitechnic_products) sensors and port multiplexer:
+Lego Mindstorms NXT 2.0 Sensors and Motors are implemented and tested, and many of the [HiTechnic](http://modernroboticsinc.com/hitechnic_products) sensors and port multiplexer:
 
 ##### Mindstorms
 - Mindstorms [NXT Touch Sensor](https://shop.lego.com/en-CH/Touch-Sensor-9843)
@@ -137,7 +137,9 @@ motorA.EncoderOffset = motorA.Encoder;
 
 ### Sensors
 
-Sensor ports need to be initialized with the specific sensor type, as different sensors use different response data format. If not explicitely initialiezd, each sensor port is initialized as a RawSensor (technically sending a 10-bit response value), which some analog sensors are using. Instances of the specific sensor type need to be created, and attached to the Brick.Sensors collection. If multiple sensors will be attached, initialization can be hold until all sensors are created and added to the collection.
+Sensor ports need to be initialized with the specific sensor type, as different sensors have different response data format. If not explicitely set, each sensor port is initialized as a RawSensor (technically sending a 10-bit response value), which most analog sensors are using. 
+
+Instances of the specific sensor type need to be created, and attached to the Brick.Sensors collection. If multiple sensors will be attached, initialization can be hold until all sensors are created and added to the collection.
 
 ```C#
 NXTTouchSensor touch = new NXTTouchSensor(SensorPort.Port_S1, SensorType.TOUCH_DEBOUNCE);
@@ -150,11 +152,11 @@ if (!await brick.InitializeSensors())		//now explicitely call sensor initializat
 	Debug.WriteLine("Something went wrong initializing sensors");
 ```
 
-Sensor data actively needs to be polled from the BrickPi. This can be done in a single shot using `brick.UpdateValues()`. Most often a continuous loop will be run to poll sensor data (and motor encoder data) continously, this can be done by calling `brick.Start()`
+Sensor data actively needs to be polled from the BrickPi. This can be done in a single shot using `brick.UpdateValues()`. More typically, a continuous loop running polls sensor data and motor encoder data continously. Such loop can be started by calling `brick.Start()`
 
 #### Sensor Data
 
-Sensor's internal data buffer will be updated either through single or continuous sensor data polling (see above). In the application, sensor data can than be accessed through the various sensor properties, i.e. the UltraSonic sensor has a property for Distance, or Touch Sensor a boolean property indicating if the button is Pressed:
+Sensor's internal data buffer will be updated either through single or continuous sensor data polling (see above). In the application, sensor data can than be accessed through the various sensor properties, i.e. the UltraSonic sensor has a property for Distance, or Touch Sensor a boolean property indicating if the button is pressed:
 ```C#
 Debug.WriteLine(string.Format("NXT Ultrasonic, Distance: {0}, ", ultrasonic.Distance)); //distance in cm
 Debug.WriteLine(string.Format("NXT Touch, Is Pressed: {0}, ", touch.Pressed)); //true if pressed
@@ -203,6 +205,16 @@ To avoid raising events on noisy data, ie. where ambient light floats, or ultras
 
 ```C#
 ultrasonic.Threshold = 5;
+```
+
+### Voltage
+
+The BrickPi+ has an onboard MCP3031 chip, connected to the Raspberry I2C bus. This chip can be used to read the current voltage supplied to the Raspberry/BrickPi stack, i.e. to monitor battery supply.
+
+Simple read the brick's Voltage property.
+
+```C#
+Debug.WriteLine($"Voltage {brick.Voltage}V");
 ```
 
 ### Known Issues
