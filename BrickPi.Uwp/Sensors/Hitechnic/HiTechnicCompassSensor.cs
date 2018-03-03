@@ -63,7 +63,7 @@ namespace BrickPi.Uwp.Sensors.Hitechnic
             {
                 Heading = heading;
 
-                base.OnChangedEventHandler(null);
+                base.OnChangedEventHandler(new CompassSensorChangedEventArgs() { Heading = this.Heading });
             }
         }
 

@@ -11,8 +11,6 @@ namespace BrickPi.Uwp.Sensors
         protected SensorActionDelegate requestAction;
         protected SensorActionDelegate responseAction;
 
-        public int ChangeEventThreshold { get; set; }
-
         public I2CSensor(SensorPort sensorPort) : base(sensorPort)
         {
             SensorType = SensorType.I2C;

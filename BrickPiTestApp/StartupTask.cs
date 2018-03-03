@@ -32,7 +32,8 @@ namespace BrickPiTestApp
         private Motor motorD;
         private const int LED_PIN = 47;
         private HiTechnicTouchMultiplexer multiTouch;
-        private HiTechnicCompassSensor compass;
+        //private HiTechnicCompassSensor compass;
+        private HiTechnicGyroSensor gyro;
 
 
         public async void Run(IBackgroundTaskInstance taskInstance)
@@ -48,9 +49,12 @@ namespace BrickPiTestApp
             bool timeoutSuccess = await brick.SetTimeout(200);
             Debug.WriteLine(string.Format("Setting timeout succesfully: {0}", timeoutSuccess));
 
-            compass = new HiTechnicCompassSensor(SensorPort.Port_S1);
-            compass.OnChanged += Sensor_OnChanged;
-            await brick.Sensors.Add(compass, true);
+            gyro = new HiTechnicGyroSensor(SensorPort.Port_S1);
+            gyro.OnChanged += Sensor_OnChanged;
+            await brick.Sensors.Add(gyro, true);
+            //compass = new HiTechnicCompassSensor(SensorPort.Port_S1);
+            //compass.OnChanged += Sensor_OnChanged;
+            //await brick.Sensors.Add(compass, true);
             //multiTouch = new HiTechnicTouchMultiplexer(SensorPort.Port_S1);
             //multiTouch.OnChanged += MultiTouch_OnChanged;
             //await brick.Sensors.Add(multiTouch);
@@ -108,11 +112,17 @@ namespace BrickPiTestApp
             //compass.EndCompassCalibration();
             //Debug.WriteLine("Done Compass Calibration");
 
+            Debug.WriteLine("Starting Gyro Calibration");
+            gyro.BeginCalibration();
+            await Task.Delay(5000);
+            Debug.WriteLine("Starting Gyro Calibration");
+            gyro.EndCalibration();
+
         }
 
         private void Sensor_OnChanged(object sender, SensorChangedEventArgs e)
         {
-            Debug.WriteLine($"Direction:{compass.Heading}");
+            Debug.WriteLine($"Rotation:{gyro.DirectionalRotationRate} Direction: {(e as GyroSensorChangedEventArgs).Direction}");            
         }
 
         private void MultiTouch_OnChanged(object sender, SensorChangedEventArgs e)

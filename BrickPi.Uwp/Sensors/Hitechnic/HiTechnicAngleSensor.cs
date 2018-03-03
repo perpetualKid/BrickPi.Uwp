@@ -78,7 +78,7 @@ namespace BrickPi.Uwp.Sensors.Hitechnic
                 AccumulatedAngle = accumulatedAngle;
                 RPM = ((sbyte)I2CData[0].ReadData[6] << 8) + I2CData[0].ReadData[7];
 
-                base.OnChangedEventHandler(null);
+                base.OnChangedEventHandler(new AngleSensorChangedEventArgs() { Angle = this.Angle, AccumulatedAngle = this.AccumulatedAngle, RPM = this.RPM });
             }
         }
 

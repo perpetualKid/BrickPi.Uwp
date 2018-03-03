@@ -26,6 +26,9 @@ namespace BrickPi.Uwp.Sensors
 
         public int RawValue { get; set; }
 
+        public int ChangeEventThreshold { get; set; }
+
+
         public virtual TimeSpan? InitializeSensorRequest(ProtocolArray requestData)
         {
             requestData[Const.SensorIndex + (int)sensorPort.ArduinoPort()] = (byte)SensorType;
