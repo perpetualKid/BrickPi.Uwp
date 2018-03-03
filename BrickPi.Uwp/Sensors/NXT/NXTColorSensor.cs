@@ -40,17 +40,20 @@ namespace BrickPi.Uwp.Sensors.NXT
 
         public override void UpdateSensorResponse(ProtocolArray responseData)
         {
+            int previous = RawValue;
             if (SensorType == SensorType.COLOR_FULL)
             {
                 RawValue = (int)responseData.GetBits(1, 3);
                 colorData = new ARGBColor(
-                    (int)responseData.GetBits(1, 10), 
-                    (int)responseData.GetBits(1, 10), 
-                    (int)responseData.GetBits(1, 10), 
+                    (int)responseData.GetBits(1, 10),
+                    (int)responseData.GetBits(1, 10),
+                    (int)responseData.GetBits(1, 10),
                     (int)responseData.GetBits(1, 10));
             }
             else
                 base.UpdateSensorResponse(responseData);
+            if (Math.Abs(previous - RawValue) >= ChangeEventThreshold)
+                base.OnChangedEventHandler(new SensorChangedEventArgs());
         }
     }
 }

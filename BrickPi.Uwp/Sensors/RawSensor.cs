@@ -26,8 +26,7 @@ namespace BrickPi.Uwp.Sensors
 
         public int RawValue { get; set; }
 
-        public int ChangeEventThreshold { get; set; }
-
+        public int ChangeEventThreshold { get; set; } = 1;
 
         public virtual TimeSpan? InitializeSensorRequest(ProtocolArray requestData)
         {

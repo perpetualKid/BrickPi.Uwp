@@ -49,9 +49,9 @@ namespace BrickPiTestApp
             bool timeoutSuccess = await brick.SetTimeout(200);
             Debug.WriteLine(string.Format("Setting timeout succesfully: {0}", timeoutSuccess));
 
-            gyro = new HiTechnicGyroSensor(SensorPort.Port_S1);
-            gyro.OnChanged += Sensor_OnChanged;
-            await brick.Sensors.Add(gyro, true);
+            //gyro = new HiTechnicGyroSensor(SensorPort.Port_S1);
+            //gyro.OnChanged += Sensor_OnChanged;
+            //await brick.Sensors.Add(gyro, true);
             //compass = new HiTechnicCompassSensor(SensorPort.Port_S1);
             //compass.OnChanged += Sensor_OnChanged;
             //await brick.Sensors.Add(compass, true);
@@ -73,6 +73,7 @@ namespace BrickPiTestApp
             color = new NXTColorSensor(SensorPort.Port_S4, SensorType.COLOR_FULL);
             await brick.Sensors.Add(color, true);
             color = new NXTColorSensor(SensorPort.Port_S3, SensorType.COLOR_FULL);
+            color.OnChanged += Sensor_OnChanged;
             await brick.Sensors.Add(color, true);
 #else
             color = new NXTColorSensor(SensorPort.Port_S3, SensorType.COLOR_RED);
@@ -112,17 +113,11 @@ namespace BrickPiTestApp
             //compass.EndCompassCalibration();
             //Debug.WriteLine("Done Compass Calibration");
 
-            Debug.WriteLine("Starting Gyro Calibration");
-            gyro.BeginCalibration();
-            await Task.Delay(5000);
-            Debug.WriteLine("Starting Gyro Calibration");
-            gyro.EndCalibration();
-
         }
 
         private void Sensor_OnChanged(object sender, SensorChangedEventArgs e)
         {
-            Debug.WriteLine($"Rotation:{gyro.DirectionalRotationRate} Direction: {(e as GyroSensorChangedEventArgs).Direction}");            
+            Debug.WriteLine($"Color:{color.ColorName} Data: {color.ColorData}");            
         }
 
         private void MultiTouch_OnChanged(object sender, SensorChangedEventArgs e)
