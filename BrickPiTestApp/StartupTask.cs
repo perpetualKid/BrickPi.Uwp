@@ -85,11 +85,12 @@ namespace BrickPiTestApp
 
             brick.Start();
 
-            //while (true)
-            //{
-            //    await brick.UpdateValues();
-            //    await Task.Delay(1000);
-            //}
+            while (true)
+            {
+                //                await brick.UpdateValues();
+                Debug.WriteLine($"Voltage {brick.Voltage}V");
+                await Task.Delay(1000);
+            }
 
             //motorA.SetTachoCount(motorA.GetTachoCount());
             //await brick.Stop();

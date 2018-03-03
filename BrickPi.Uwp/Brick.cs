@@ -7,6 +7,7 @@ using BrickPi.Uwp.Motors;
 using BrickPi.Uwp.Sensors;
 using Windows.Devices.Enumeration;
 using Windows.Devices.Gpio;
+using Windows.Devices.I2c;
 using Windows.Devices.SerialCommunication;
 
 namespace BrickPi.Uwp
@@ -16,7 +17,7 @@ namespace BrickPi.Uwp
         private static Brick instance;
 
         private SerialDevice serialPort;
-
+        private I2cDevice mcp3021Sensor;
         private SensorCollection sensors;
         private MotorCollection motors;
         private BrickLed arduino1Led;
@@ -69,7 +70,8 @@ namespace BrickPi.Uwp
             instance = new Brick(serialDevice);
             Task configSerialTask = instance.ConfigureSerialPort();
             Task<GpioController> gpioControllerTask = GpioController.GetDefaultAsync().AsTask<GpioController>();
-            await Task.WhenAll(configSerialTask, gpioControllerTask);
+            Task configVoltage = instance.InitializeVoltageReader();
+            await Task.WhenAll(configSerialTask, gpioControllerTask, configVoltage);
 
             instance.arduino1Led = new BrickLed(gpioControllerTask.Result, Arduino.Arduino1);
             instance.arduino2Led = new BrickLed(gpioControllerTask.Result, Arduino.Arduino2);
@@ -149,6 +151,22 @@ namespace BrickPi.Uwp
         }
         #endregion
 
+        #region Voltage
+        private async Task InitializeVoltageReader()
+        {
+            try
+            {
+                //// 0x48 is address for the I2C Connection using the MCP3021 sensor connected to the BrickPi+
+                DeviceInformation i2cController = (await DeviceInformation.FindAllAsync(I2cDevice.GetDeviceSelector("I2C1")))[0];
+                mcp3021Sensor = await I2cDevice.FromIdAsync(i2cController.Id, new I2cConnectionSettings(0x48));
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Exception initializing MCP3021 Voltage Chip: {ex.Message}");
+            }
+        }
+        #endregion
+
         public static Brick Instance
         {
             get
@@ -168,6 +186,25 @@ namespace BrickPi.Uwp
         public BrickLed Arduino1Led { get { return arduino1Led; } }
 
         public BrickLed Arduino2Led { get { return arduino2Led; } }
+
+        public float Voltage
+        {
+            /* 
+             * The ten-bit output code of MCP3021Sensor is composed of the lower 4-bit of the first byte and the upper 6-bit of the second byte. 
+             * The chip has a 3.3V reference and there is a 45k/10k voltage divider, so value of 1024 represents 18.15V. 
+             */
+            get
+            {
+                if (mcp3021Sensor != null)
+                {
+                    byte[] buffer = new byte[2];
+                    mcp3021Sensor.Read(buffer);
+                    return (float)Math.Round((((buffer[0] & 0b1111) << 6) | (buffer[1] >> 2)) * 0.01815, 2);
+
+                }
+                return float.NaN;
+            }
+        }
 
 
     }
