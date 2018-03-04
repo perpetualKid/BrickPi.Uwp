@@ -34,7 +34,8 @@ namespace BrickPiTestApp
         private HiTechnicTouchMultiplexer multiTouch;
         //private HiTechnicCompassSensor compass;
         //private HiTechnicGyroSensor gyro;
-        private HiTechnicEOPDSensor eopd;
+        //private HiTechnicEOPDSensor eopd;
+        private HiTechnicAccelerationSensor accel;
 
 
         public async void Run(IBackgroundTaskInstance taskInstance)
@@ -50,9 +51,12 @@ namespace BrickPiTestApp
             bool timeoutSuccess = await brick.SetTimeout(200);
             Debug.WriteLine(string.Format("Setting timeout succesfully: {0}", timeoutSuccess));
 
-            eopd = new HiTechnicEOPDSensor(SensorPort.Port_S1);
-            eopd.OnChanged += Sensor_OnChanged;
-            await brick.Sensors.Add(eopd, true);
+            accel = new HiTechnicAccelerationSensor(SensorPort.Port_S1);
+            accel.OnChanged += Sensor_OnChanged;
+            await brick.Sensors.Add(accel, true);
+            //eopd = new HiTechnicEOPDSensor(SensorPort.Port_S1);
+            //eopd.OnChanged += Sensor_OnChanged;
+            //await brick.Sensors.Add(eopd, true);
             //gyro = new HiTechnicGyroSensor(SensorPort.Port_S1);
             //gyro.OnChanged += Sensor_OnChanged;
             //await brick.Sensors.Add(gyro, true);
@@ -122,7 +126,7 @@ namespace BrickPiTestApp
 
         private void Sensor_OnChanged(object sender, SensorChangedEventArgs e)
         {
-            Debug.WriteLine($"Eopd:{eopd.EOPDValue} ProcessedValue {eopd.ProcessedValue}");
+            Debug.WriteLine($"X:{accel.X} Y:{accel.Y} Z:{accel.Z}");
         }
 
         private void MultiTouch_OnChanged(object sender, SensorChangedEventArgs e)

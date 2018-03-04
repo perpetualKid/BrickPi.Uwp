@@ -20,6 +20,7 @@ Lego Mindstorms NXT 2.0 Sensors and Motors are implemented and tested, and many 
 - HiTechnic [Compass Sensor](http://modernroboticsinc.com/hitechnic-nxt-compass-sensor)
 - HiTechnic [Gyro Sensor (legacy)](http://www.hitechnic.com/cgi-bin/commerce.cgi?preadd=action&key=NGY1044)
 - HiTechnic [EOPD Sensor](http://modernroboticsinc.com/hitechnic-nxt-eopd)
+- HiTechnic [Acceleration & Tilt Sensor](http://modernroboticsinc.com/hitechnic-nxt-acceleration-tilt-sensor)
 
 ## Getting Started
 
