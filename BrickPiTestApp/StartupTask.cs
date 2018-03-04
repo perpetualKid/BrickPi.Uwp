@@ -35,7 +35,8 @@ namespace BrickPiTestApp
         //private HiTechnicCompassSensor compass;
         //private HiTechnicGyroSensor gyro;
         //private HiTechnicEOPDSensor eopd;
-        private HiTechnicAccelerationSensor accel;
+        //private HiTechnicAccelerationSensor accel;
+        private HiTechnicIRSeeker irSeeker;
 
 
         public async void Run(IBackgroundTaskInstance taskInstance)
@@ -51,9 +52,12 @@ namespace BrickPiTestApp
             bool timeoutSuccess = await brick.SetTimeout(200);
             Debug.WriteLine(string.Format("Setting timeout succesfully: {0}", timeoutSuccess));
 
-            accel = new HiTechnicAccelerationSensor(SensorPort.Port_S1);
-            accel.OnChanged += Sensor_OnChanged;
-            await brick.Sensors.Add(accel, true);
+            irSeeker = new HiTechnicIRSeeker(SensorPort.Port_S1);
+            irSeeker.OnChanged += Sensor_OnChanged;
+            await brick.Sensors.Add(irSeeker, true);
+            //accel = new HiTechnicAccelerationSensor(SensorPort.Port_S1);
+            //accel.OnChanged += Sensor_OnChanged;
+            //await brick.Sensors.Add(accel, true);
             //eopd = new HiTechnicEOPDSensor(SensorPort.Port_S1);
             //eopd.OnChanged += Sensor_OnChanged;
             //await brick.Sensors.Add(eopd, true);
@@ -126,7 +130,7 @@ namespace BrickPiTestApp
 
         private void Sensor_OnChanged(object sender, SensorChangedEventArgs e)
         {
-            Debug.WriteLine($"X:{accel.X} Y:{accel.Y} Z:{accel.Z}");
+            Debug.WriteLine($"AC:{irSeeker.ACDirection} DC:{irSeeker.DCDirection} DC Mean:{irSeeker.DCMean} ACValues:{irSeeker.ACValues} DC Values:{irSeeker.DCValues}");
         }
 
         private void MultiTouch_OnChanged(object sender, SensorChangedEventArgs e)

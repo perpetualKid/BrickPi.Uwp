@@ -24,6 +24,13 @@ namespace BrickPi.Uwp.Base
         public int Z { get; set; }
     }
 
+    public class IRSeekerSensorChangedEventArgs: SensorChangedEventArgs
+    {
+        public int ACDirection { get; set; }
+        public int DCDirection { get; set; }
+        public int DCMean { get; set; }
+    }
+
     public class GyroSensorChangedEventArgs: SensorChangedEventArgs
     {
         public int AbsoluteRotationRate { get { return Math.Abs(DirectionalRotationRate); } }

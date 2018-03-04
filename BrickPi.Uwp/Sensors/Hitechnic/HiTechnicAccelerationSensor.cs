@@ -16,7 +16,7 @@ namespace BrickPi.Uwp.Sensors.Hitechnic
         public HiTechnicAccelerationSensor(SensorPort sensorPort): base(sensorPort)
         {
             ChangeEventThreshold = 2;
-            SensorType = SensorType.I2C_9V;
+            SensorType = SensorType.I2C;
             Speed = 5;
             I2CData = new I2CDataCollection(1);
 
