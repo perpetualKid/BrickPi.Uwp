@@ -28,7 +28,7 @@ namespace BrickPi.Uwp.Sensors.EV3
             SensorType = sensorType;
         }
 
-        public override void UpdateSensorResponse(ProtocolArray responseData)
+        internal protected override void UpdateSensorResponse(ProtocolArray responseData)
         {
             bool state = Pressed;
             if (SensorType == SensorType.EV3_TOUCH_0)

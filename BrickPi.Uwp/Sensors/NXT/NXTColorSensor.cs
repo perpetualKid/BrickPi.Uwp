@@ -30,15 +30,15 @@ namespace BrickPi.Uwp.Sensors.NXT
         {
             get { return Enum.GetName(typeof(Color), SensorType == SensorType.COLOR_FULL ? (Color)RawValue : Color.None); }
         }
-        
 
-        public override TimeSpan? InitializeSensorRequest(ProtocolArray requestData)
+
+        internal protected override TimeSpan? InitializeSensorRequest(ProtocolArray requestData)
         {
             //ColorSensor needs some extra time for setup (due to calibration?)
             return (base.InitializeSensorRequest(requestData)).Max(setupTime);
         }
 
-        public override void UpdateSensorResponse(ProtocolArray responseData)
+        internal protected override void UpdateSensorResponse(ProtocolArray responseData)
         {
             int previous = RawValue;
             if (SensorType == SensorType.COLOR_FULL)

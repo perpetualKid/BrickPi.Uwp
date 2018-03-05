@@ -24,7 +24,7 @@ namespace BrickPi.Uwp.Sensors.Hitechnic
             calibrationMode = true;
         }
 
-        public override void UpdateSensorResponse(ProtocolArray responseData)
+        internal protected override void UpdateSensorResponse(ProtocolArray responseData)
         {
             base.UpdateSensorResponse(responseData);
 

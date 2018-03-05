@@ -31,7 +31,7 @@ namespace BrickPi.Uwp.Sensors.Hitechnic
 
         public int ProcessedValue { get; private set; }
 
-        public override void UpdateSensorResponse(ProtocolArray responseData)
+        internal protected override void UpdateSensorResponse(ProtocolArray responseData)
         {
             base.UpdateSensorResponse(responseData);
 

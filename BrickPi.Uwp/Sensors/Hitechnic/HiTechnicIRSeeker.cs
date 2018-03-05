@@ -47,7 +47,7 @@ namespace BrickPi.Uwp.Sensors.Hitechnic
         public byte[] ACValues { get; } = new byte[5];
         public byte[] DCValues { get; } = new byte[5];
 
-        public override void UpdateSensorRequest(ProtocolArray requestData)
+        internal protected override void UpdateSensorRequest(ProtocolArray requestData)
         {
             I2CData[0].WriteBytes = 1;
             I2CData[0].ReadBytes = 13;
@@ -56,7 +56,7 @@ namespace BrickPi.Uwp.Sensors.Hitechnic
             base.UpdateSensorRequest(requestData);
         }
 
-        public override void UpdateSensorResponse(ProtocolArray responseData)
+        internal protected override void UpdateSensorResponse(ProtocolArray responseData)
         {
             base.UpdateSensorResponse(responseData);
             int acDirection = I2CData[0].ReadData[7];

@@ -23,7 +23,7 @@ namespace BrickPi.Uwp.Sensors
 
         public uint Speed { get; set; }
 
-        public override TimeSpan? InitializeSensorRequest(ProtocolArray requestData)
+        internal protected override TimeSpan? InitializeSensorRequest(ProtocolArray requestData)
         {
             TimeSpan? result = base.InitializeSensorRequest(requestData);
 
@@ -52,7 +52,7 @@ namespace BrickPi.Uwp.Sensors
             return result;
         }
 
-        public override void UpdateSensorRequest(ProtocolArray requestData)
+        internal protected override void UpdateSensorRequest(ProtocolArray requestData)
         {
             requestAction?.Invoke(requestData);
 
@@ -77,7 +77,7 @@ namespace BrickPi.Uwp.Sensors
             }
         }
 
-        public override void UpdateSensorResponse(ProtocolArray responseData)
+        internal protected override void UpdateSensorResponse(ProtocolArray responseData)
         {
             RawValue = (int)responseData.GetBits(1, (byte)I2CData.Count);
 

@@ -32,7 +32,7 @@ namespace BrickPi.Uwp.Sensors.NXT
             I2CData[0].WriteData[0] = LEGO_US_I2C_DATA_REG;
         }
 
-        public override TimeSpan? InitializeSensorRequest(ProtocolArray requestData)
+        internal protected override TimeSpan? InitializeSensorRequest(ProtocolArray requestData)
         {
             TimeSpan? result;
 
@@ -47,7 +47,7 @@ namespace BrickPi.Uwp.Sensors.NXT
             return result;
         }
 
-        public override void UpdateSensorResponse(ProtocolArray responseData)
+        internal protected override void UpdateSensorResponse(ProtocolArray responseData)
         {
             int previous = RawValue;
 

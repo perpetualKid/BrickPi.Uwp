@@ -28,20 +28,20 @@ namespace BrickPi.Uwp.Sensors
 
         public int ChangeEventThreshold { get; set; } = 1;
 
-        public virtual TimeSpan? InitializeSensorRequest(ProtocolArray requestData)
+        internal protected virtual TimeSpan? InitializeSensorRequest(ProtocolArray requestData)
         {
             requestData[Const.SensorIndex + (int)sensorPort.ArduinoPort()] = (byte)SensorType;
             return null;
         }
 
-        public virtual void UpdateSensorRequest(ProtocolArray requestData)
+        internal protected virtual void UpdateSensorRequest(ProtocolArray requestData)
         {
             //nothing to do here
         }
 
-        public virtual void UpdateSensorResponse(ProtocolArray responseData)
+        internal protected virtual void UpdateSensorResponse(ProtocolArray responseData)
         {
-            //TODO: any specific implementations should be done in dedicated sensor classes
+            //any specific implementations should be done in dedicated sensor classes
             switch (SensorType)
             {
                 case SensorType.RAW:
@@ -49,7 +49,7 @@ namespace BrickPi.Uwp.Sensors
                     //case SensorType.LIGHT_OFF:
                     RawValue = (int)responseData.GetBits(1, 10);
                     break;
-                //case SensorType.LIGHT_ON:
+                //case SensorType.LIGHT_ON:     //required for EOPD sensor, acting as RAW Sensor
                 //    throw new NotImplementedException();
                 //case SensorType.RCX_LIGHT:
                 //    throw new NotImplementedException();

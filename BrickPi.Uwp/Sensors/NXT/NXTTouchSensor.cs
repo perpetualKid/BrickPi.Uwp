@@ -24,7 +24,7 @@ namespace BrickPi.Uwp.Sensors.NXT
             SensorType = sensorType;
         }
 
-        public override void UpdateSensorResponse(ProtocolArray responseData)
+        internal protected override void UpdateSensorResponse(ProtocolArray responseData)
         {
             bool state = Pressed;
             if (SensorType == SensorType.TOUCH) //Touch has single bit response, vs Touch_Debounce reads a analog raw value

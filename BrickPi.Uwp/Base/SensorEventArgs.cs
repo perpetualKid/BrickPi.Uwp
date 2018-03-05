@@ -50,6 +50,14 @@ namespace BrickPi.Uwp.Base
         public int Heading { get; set; }
     }
 
+    public sealed class TouchMultiplexerChangedEventArgs : SensorChangedEventArgs
+    {
+        public MultiplexerButtons ChangedButtons { get; set; }
+
+        public MultiplexerButtons PressedButtons { get; set; }
+    }
+
+
     public interface IPropertyChangedEvent
     {
         event EventHandler<SensorChangedEventArgs> OnChanged;

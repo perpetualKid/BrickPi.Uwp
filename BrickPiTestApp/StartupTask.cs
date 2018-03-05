@@ -38,7 +38,6 @@ namespace BrickPiTestApp
         //private HiTechnicAccelerationSensor accel;
         private HiTechnicIRSeeker irSeeker;
 
-
         public async void Run(IBackgroundTaskInstance taskInstance)
         {
             deferal = taskInstance.GetDeferral();
@@ -52,9 +51,9 @@ namespace BrickPiTestApp
             bool timeoutSuccess = await brick.SetTimeout(200);
             Debug.WriteLine(string.Format("Setting timeout succesfully: {0}", timeoutSuccess));
 
-            irSeeker = new HiTechnicIRSeeker(SensorPort.Port_S1);
-            irSeeker.OnChanged += Sensor_OnChanged;
-            await brick.Sensors.Add(irSeeker, true);
+            //irSeeker = new HiTechnicIRSeeker(SensorPort.Port_S1);
+            //irSeeker.OnChanged += Sensor_OnChanged;
+            //await brick.Sensors.Add(irSeeker, true);
             //accel = new HiTechnicAccelerationSensor(SensorPort.Port_S1);
             //accel.OnChanged += Sensor_OnChanged;
             //await brick.Sensors.Add(accel, true);
@@ -67,9 +66,10 @@ namespace BrickPiTestApp
             //compass = new HiTechnicCompassSensor(SensorPort.Port_S1);
             //compass.OnChanged += Sensor_OnChanged;
             //await brick.Sensors.Add(compass, true);
-            //multiTouch = new HiTechnicTouchMultiplexer(SensorPort.Port_S1);
-            //multiTouch.OnChanged += MultiTouch_OnChanged;
-            //await brick.Sensors.Add(multiTouch);
+
+            multiTouch = new HiTechnicTouchMultiplexer(SensorPort.Port_S1);
+            multiTouch.OnChanged += MultiTouch_OnChanged;
+            await brick.Sensors.Add(multiTouch);
 
             //touch = new NXTTouchSensor(SensorPort.Port_S1, SensorType.TOUCH_DEBOUNCE);
             //touch.OnPressed += Touch_OnPressed;
@@ -130,7 +130,7 @@ namespace BrickPiTestApp
 
         private void Sensor_OnChanged(object sender, SensorChangedEventArgs e)
         {
-            Debug.WriteLine($"AC:{irSeeker.ACDirection} DC:{irSeeker.DCDirection} DC Mean:{irSeeker.DCMean} ACValues:{irSeeker.ACValues} DC Values:{irSeeker.DCValues}");
+            //            Debug.WriteLine($"AC:{irSeeker.ACDirection} DC:{irSeeker.DCDirection} DC Mean:{irSeeker.DCMean} ACValues:{irSeeker.ACValues} DC Values:{irSeeker.DCValues}");
         }
 
         private void MultiTouch_OnChanged(object sender, SensorChangedEventArgs e)
