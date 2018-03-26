@@ -36,7 +36,8 @@ namespace BrickPiTestApp
         //private HiTechnicGyroSensor gyro;
         //private HiTechnicEOPDSensor eopd;
         //private HiTechnicAccelerationSensor accel;
-        private HiTechnicIRSeeker irSeeker;
+        //private HiTechnicIRSeeker irSeeker;
+        private HiTechnicSensorMultiplexer smux;
 
         public async void Run(IBackgroundTaskInstance taskInstance)
         {
@@ -67,9 +68,12 @@ namespace BrickPiTestApp
             //compass.OnChanged += Sensor_OnChanged;
             //await brick.Sensors.Add(compass, true);
 
-            multiTouch = new HiTechnicTouchMultiplexer(SensorPort.Port_S1);
-            multiTouch.OnChanged += MultiTouch_OnChanged;
-            await brick.Sensors.Add(multiTouch);
+            smux = new HiTechnicSensorMultiplexer(SensorPort.Port_S1);
+            smux.OnChanged += Smux_OnChanged;
+            await brick.Sensors.Add(smux, true);
+            //multiTouch = new HiTechnicTouchMultiplexer(SensorPort.Port_S1);
+            //multiTouch.OnChanged += MultiTouch_OnChanged;
+            //await brick.Sensors.Add(multiTouch);
 
             //touch = new NXTTouchSensor(SensorPort.Port_S1, SensorType.TOUCH_DEBOUNCE);
             //touch.OnPressed += Touch_OnPressed;
@@ -77,9 +81,9 @@ namespace BrickPiTestApp
             //touch.OnChanged += Touch_OnChanged;
             //await brick.Sensors.Add(touch, true);
 
-            ultrasonic = new NXTUltraSonicSensor(SensorPort.Port_S2, SensorType.ULTRASONIC_CONT);
-            ultrasonic.ChangeEventThreshold = 5;
-            await brick.Sensors.Add(ultrasonic, true);
+            //ultrasonic = new NXTUltraSonicSensor(SensorPort.Port_S2, SensorType.ULTRASONIC_CONT);
+            //ultrasonic.ChangeEventThreshold = 5;
+            //await brick.Sensors.Add(ultrasonic, true);
 
 #if COLOR
             color = new NXTColorSensor(SensorPort.Port_S4, SensorType.COLOR_FULL);
@@ -106,11 +110,17 @@ namespace BrickPiTestApp
 
             //motorA.SetTachoCount(motorA.GetTachoCount());
             //await brick.Stop();
+            smux.Halt();
             await Task.Delay(5000);
 
             //Debug.WriteLine("Setting Angle Sensor zero");
             //angle.ResetAccumulatedAngle();
 
+            smux.AutoDetect();
+            await Task.Delay(5000);
+            smux.Run();
+            await Task.Delay(10000);
+            smux.Halt();
             //Debug.WriteLine("Starting Compass Calibration");
             //compass.BeginCompassCalibration();
             //for (int j = 0; j < 4; j++)
@@ -126,6 +136,11 @@ namespace BrickPiTestApp
             //compass.EndCompassCalibration();
             //Debug.WriteLine("Done Compass Calibration");
 
+        }
+
+        private void Smux_OnChanged(object sender, SensorChangedEventArgs e)
+        {
+            Debug.WriteLine($"SMux:{smux.Status}");
         }
 
         private void Sensor_OnChanged(object sender, SensorChangedEventArgs e)

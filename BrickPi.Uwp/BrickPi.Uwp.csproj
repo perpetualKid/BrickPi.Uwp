@@ -130,6 +130,7 @@
     <Compile Include="Sensors\Hitechnic\HiTechnicEOPDSensor.cs" />
     <Compile Include="Sensors\Hitechnic\HiTechnicGyroSensor.cs" />
     <Compile Include="Sensors\Hitechnic\HiTechnicIRSeeker.cs" />
+    <Compile Include="Sensors\Hitechnic\HiTechnicSensorMultiplexer.cs" />
     <Compile Include="Sensors\Hitechnic\HiTechnicTouchMultiplexer.cs" />
     <Compile Include="Sensors\I2CData.cs" />
     <Compile Include="Sensors\I2CSensor.cs" />
@@ -144,7 +145,7 @@
   <ItemGroup />
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-      <Version>6.0.7</Version>
+      <Version>6.0.8</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
